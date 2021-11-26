@@ -27,11 +27,12 @@ def index():
     return render_template('home.html', title='Q&A Board', posts=posts, userFirstName = userFirstName, loggedIn = loggedIn)
     #return render_template('dashboard.html', title='Dashboard Board Title', posts=posts)
 
-@app.route('/logged-out')
+@app.route('/logged-out/')
 def logOut():
+    global loggedIn
     loggedIn = False
     print(loggedIn)
-    return 'You are logged out'
+    return 'You are logged out, you will be redirected in 3 seconds', {"Refresh": "3; url = /"}
 
 @app.route('/home')
 def goHome():
