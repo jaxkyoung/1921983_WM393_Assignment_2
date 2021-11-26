@@ -2,6 +2,10 @@ from flask import Flask
 from flask import url_for
 from flask import render_template
 
+global loggedIn
+loggedIn = False
+
+
 
 app = Flask(__name__)
 
@@ -14,9 +18,32 @@ posts = [
     { "title": "Welcome to WM393 module", "name": "Young Park", "date": "05 Sep 2021", "count": 8 }
 ]
 
+userFirstName = 'Jack'
+
 @app.route('/')
 def index():
-    return render_template('list.html', title='Q&A Board', posts=posts, imgPath = "resources/wmg-the-university-of-warwick-logo-vector.png")
+    global loggedIn
+    print(loggedIn)
+    return render_template('home.html', title='Q&A Board', posts=posts, userFirstName = userFirstName, loggedIn = loggedIn)
+    #return render_template('dashboard.html', title='Dashboard Board Title', posts=posts)
+
+@app.route('/logged-out')
+def logOut():
+    loggedIn = False
+    print(loggedIn)
+    return 'You are logged out'
+
+@app.route('/home')
+def goHome():
+    return "Hello World"
+
+@app.route('/log-in')
+def logInReq():
+    global loggedIn
+    loggedIn = True
+    print(loggedIn)
+    return 'Log In Page'
+    #return render_template('logIn.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
