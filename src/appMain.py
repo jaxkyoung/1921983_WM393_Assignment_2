@@ -2,6 +2,7 @@ from flask import Flask
 from flask import url_for
 from flask import render_template
 
+global userFirstName
 global loggedIn
 loggedIn = False
 
@@ -21,7 +22,7 @@ posts = [
 userFirstName = 'Jack'
 
 @app.route('/')
-def index():
+def home():
     global loggedIn
     print(loggedIn)
     return render_template('home.html', title='Q&A Board', posts=posts, userFirstName = userFirstName, loggedIn = loggedIn)
@@ -38,6 +39,14 @@ def logOut():
 def goHome():
     return "Hello World"
 
+@app.route('/Q-A-Board')
+def QABoardHome():
+    global loggedIn
+    print(loggedIn)
+    if loggedIn == True:
+        return render_template('QABoard.html', title='Q&A Board', posts=posts, userFirstName = userFirstName, loggedIn = loggedIn)
+    else:
+        return render_template('AccessError.html')
 @app.route('/log-in')
 def logInReq():
     global loggedIn
