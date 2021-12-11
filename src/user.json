@@ -3,12 +3,12 @@
         {   "email": "tutor@warwick.ac.uk", 
             "fName": "Young", 
             "sName": "Park", 
-            "hash": "b'$2b$12$JMiBUBGzZ5i/pHmXaXjZduieVxepOcKALFfhA7DO1UGqyFcf/v0lq'"
+            "hash": "$2b$12$7WAqHTRXjj3/wIRUlhrBqeD8ImGVx2kmNKipnZNUBkLczzkkW6OES"
         },
         {   "email": "student@warwick.ac.uk", 
             "fName": "Joe", 
             "sName": "Bloggs", 
-            "hash": "b'$2b$12$HwZY798mWqK4UtKu8SNWOOu2yAiykVoIrwzJ.SJbLUh3oAW.Mra/e'"
+            "hash": "$2b$12$HwZY798mWqK4UtKu8SNWOOu2yAiykVoIrwzJ.SJbLUh3oAW.Mra/e"
         }
     ]
 }
