@@ -1,4 +1,14 @@
-[
-    { "email": "student@warwick.ac.uk", "fName": "Young", "sName": "Park", "hash": "Young Park"},
-    { "email": "student@warwick.ac.uk", "fName": "Joe", "sName": "Bloggs", "hash": "Young Park"}
-]
+{
+    "user_details": [
+        {   "email": "tutor@warwick.ac.uk", 
+            "fName": "Young", 
+            "sName": "Park", 
+            "hash": "b'$2b$12$JMiBUBGzZ5i/pHmXaXjZduieVxepOcKALFfhA7DO1UGqyFcf/v0lq'"
+        },
+        {   "email": "student@warwick.ac.uk", 
+            "fName": "Joe", 
+            "sName": "Bloggs", 
+            "hash": "b'$2b$12$HwZY798mWqK4UtKu8SNWOOu2yAiykVoIrwzJ.SJbLUh3oAW.Mra/e'"
+        }
+    ]
+}
