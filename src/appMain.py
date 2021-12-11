@@ -1,12 +1,12 @@
 from flask import Flask
 from flask import url_for
 from flask import render_template
+from flask import request
+from userAuth import userAccess
 
 global userFirstName
 global loggedIn
 loggedIn = False
-
-
 
 app = Flask(__name__)
 
@@ -26,7 +26,6 @@ def home():
     global loggedIn
     print(loggedIn)
     return render_template('home.html', title='Q&A Board', posts=posts, userFirstName = userFirstName, loggedIn = loggedIn)
-    #return render_template('dashboard.html', title='Dashboard Board Title', posts=posts)
 
 @app.route('/logged-out/')
 def logOut():
@@ -47,13 +46,24 @@ def QABoardHome():
         return render_template('QABoard.html', title='Q&A Board', posts=posts, userFirstName = userFirstName, loggedIn = loggedIn)
     else:
         return render_template('AccessError.html')
+
 @app.route('/log-in')
 def logInReq():
+    return render_template('logIn.html', loggedIn = loggedIn, userFirstName = userFirstName)
+
+@app.route('/log-in', methods=['POST'])
+def logInReq_post():
     global loggedIn
-    loggedIn = True
-    print(loggedIn)
-    return 'Log In Page'
-    #return render_template('logIn.html')
+    global userFirstName
+    userEmail = request.form["userEmail"]
+    userPassword = request.form["userPassword"]
+    check = userAccess.check_password(userEmail, userPassword)
+    if check == True:
+        userNames = userAccess.getUserName(userEmail)
+        userFirstName = userNames[0]
+        loggedIn = True
+        return 'You are logged in, you will be redirected in 3 seconds', {"Refresh": "3; url = /"}
+
 
 if __name__ == '__main__':
     app.run(debug=True)
