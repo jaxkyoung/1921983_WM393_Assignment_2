@@ -1,13 +1,39 @@
+# encyption library
 import bcrypt
 from getpass import getpass
+# json handling library
 import json
 
+'''Class to create, read, update, verify, and delete user profiles'''
 class userAccess(object):
+
+    # function to add user to json DB, requires valid email, password, first name and surname
+    def addUser(email, password, fName, sName):
+        # hash the input password
+        hash = userAccess.get_hashed_password(password)
+        # convert hash to string
+        hash = str(hash)
+        # extract raw hash
+        hash = hash.split("'")
+        hash = hash[1]
+        # form dictionary to be appended to json DB
+        userEntry = {   
+            "email": email, 
+            "fName": fName, 
+            "sName": sName, 
+            "hash": hash
+        }
+        # get current DB file
+        data = userAccess.getUserDetails()
+        # append added user
+        data['user_details'].append(userEntry)
+        with open('src/user.json', "w") as file:
+            # write new DB to file with indent formatted
+            json.dump(data, file, indent=4)
 
     def getUserDetails():
         # Opening JSON file
         f = open('src/user.json')
- 
         # returns JSON object as
         # a dictionary
         data = json.load(f)
@@ -33,17 +59,8 @@ class userAccess(object):
         pass
 
     def getUserName(email):
-        # Opening JSON file
-        f = open('src/user.json')
- 
-        # returns JSON object as
-        # a dictionary
-        data = json.load(f)
- 
+        data = userAccess.getUserDetails()
         # Iterating through the json user detials until matching details found
         for i in data['user_details']:
             if i['email'] == email:
                 return i['fName'], i['sName']
-
-        # Closing file
-        f.close()
