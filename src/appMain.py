@@ -2,11 +2,13 @@ from flask import Flask
 from flask import url_for
 from flask import render_template
 from flask import request
+from flask import flash
 from userAuth import userAccess
 
 global userFirstName
 global loggedIn
 loggedIn = False
+userFirstName = ''
 
 app = Flask(__name__)
 
@@ -18,8 +20,6 @@ posts = [
     { "title": "Task for finding functional and non-functional requirement available.", "name": "Young Park", "date": "17 Sep 2021", "count": 4 },
     { "title": "Welcome to WM393 module", "name": "Young Park", "date": "05 Sep 2021", "count": 8 }
 ]
-
-userFirstName = 'Jack'
 
 @app.route('/')
 def home():
@@ -34,9 +34,26 @@ def logOut():
     print(loggedIn)
     return 'You are logged out, you will be redirected in 3 seconds', {"Refresh": "3; url = /"}
 
+@app.route('/create-account')
+def createAccountPage():
+    return render_template('createAccount.html', userFirstName = userFirstName, loggedIn = loggedIn)
+
+@app.route('/create-account', methods=["POST"])
+def createAccount_post():
+    userFirstNameInput = request.form["userFirstNameInput"]
+    userSurnameInput = request.form["userSurnameInput"]
+    userEmail = request.form["userEmail"]
+    userPassword = request.form["userPassword"]
+
 @app.route('/home')
 def goHome():
-    return "Hello World"
+    return "Home"
+
+@app.route('/forgotPasswordPage')
+def forgotPasswordPage():
+    #flash('Hello')
+    return render_template('forgotPassword.html', loggedIn = loggedIn, userFirstName = userFirstName, authError = False)
+
 
 @app.route('/Q-A-Board')
 def QABoardHome():
@@ -49,7 +66,7 @@ def QABoardHome():
 
 @app.route('/log-in')
 def logInReq():
-    return render_template('logIn.html', loggedIn = loggedIn, userFirstName = userFirstName)
+    return render_template('logIn2.html', loggedIn = loggedIn, userFirstName = userFirstName, authError = False)
 
 @app.route('/log-in', methods=['POST'])
 def logInReq_post():
@@ -63,7 +80,9 @@ def logInReq_post():
         userFirstName = userNames[0]
         loggedIn = True
         return 'You are logged in, you will be redirected in 3 seconds', {"Refresh": "3; url = /"}
-
+    else:
+        userFirstName = ''
+        return render_template('logIn2.html', loggedIn = loggedIn, userFirstName = userFirstName, authError = True)
 
 if __name__ == '__main__':
     app.run(debug=True)
