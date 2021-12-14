@@ -8,6 +8,7 @@
 
 ## Python Libraries:
 - Flask
+- BCrypt
 
 ## Instructions
 1. Ensure you have access to repo
