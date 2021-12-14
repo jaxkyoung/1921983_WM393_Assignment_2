@@ -8,7 +8,7 @@ import json
 class userAccess(object):
 
     # function to add user to json DB, requires valid email, password, first name and surname
-    def addUser(email, password, fName, sName):
+    def addPendingUser(email, password, fName, sName, user_level):
         # hash the input password
         hash = userAccess.get_hashed_password(password)
         # convert hash to string
@@ -21,13 +21,14 @@ class userAccess(object):
             "email": email, 
             "fName": fName, 
             "sName": sName, 
-            "hash": hash
+            "hash": hash,
+            "user_level": user_level
         }
         # get current DB file
         data = userAccess.getUserDetails()
         # append added user
-        data['user_details'].append(userEntry)
-        with open('src/user.json', "w") as file:
+        data.append(userEntry)
+        with open('src/pending_users.json', "w") as file:
             # write new DB to file with indent formatted
             json.dump(data, file, indent=4)
 
@@ -42,6 +43,17 @@ class userAccess(object):
         # Iterating through the json user detials until matching details found
         return data
  
+    def getPendingUserDetails():
+        # Opening JSON file
+        f = open('src/pending_users.json')
+        # returns JSON object as
+        # a dictionary
+        data = json.load(f)
+        # Closing file
+        f.close()
+        # Iterating through the json user detials until matching details found
+        return data
+
     def get_hashed_password(plain_text_password):
         # Hash a password for the first time
         # (Using bcrypt, the salt is saved into the hash itself)
@@ -61,6 +73,13 @@ class userAccess(object):
     def getUserName(email):
         data = userAccess.getUserDetails()
         # Iterating through the json user detials until matching details found
-        for i in data['user_details']:
+        for i in data:
             if i['email'] == email:
                 return i['fName'], i['sName']
+
+    def getUserType(email):
+        data = userAccess.getUserDetails()
+        # Iterating through the json user detials until matching details found
+        for i in data:
+            if i['email'] == email:
+                return i['user_type']
