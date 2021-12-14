@@ -12,76 +12,58 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <!-- my css -->
+    <link rel="stylesheet" href="static/LogIn.css">
 </head>
-<body style="min-height: 75rem; padding-top: 5rem;">
+<body style="max-height: 75rem; padding-top: 5rem;">
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <a class="navbar-brand" href="#">
-            <image src="{{url_for('static',filename = 'images/wmglogo.png')}}" width = "60" height = "50" class="d-inline-block align-middle" href="{{ url_for('goHome') }}" alt="">
+            <image src="{{url_for('static',filename = 'images/wmglogo.png')}}" width = "60" height = "50" class="d-inline-block align-middle" href="{{ url_for('home') }}" alt="">
             WMG Teaching Support System
         </a>
         <div class="navbar" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      {{ userFirstName }}'s Profile
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="#">View Profile</a>
-                      <a class="dropdown-item" href="#">Settings</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="{{url_for('logOut')}}">Log Out</a>
-                    </div>
-                  </li>
-    </nav>
-    <nav class="navbar navbar-expand-sm navbar-light bg-light">
-        <a class="navbar-brand" href="#">Navigation</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Q&A</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Lecture</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Resource</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Notice</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Calendar</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Quiz</a>
-            </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </div>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+              {%if userFirstName == '' or loggedIn == False%}
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Profile
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#">Settings</a>                  
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{{url_for('logInReq')}}">Log In</a>
+                </div>
+              {%else%}
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {{userFirstName}}'s Profile
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#">View Profile</a>
+                  <a class="dropdown-item" href="#">Settings</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{{url_for('logOut')}}">Log Out</a>
+                </div>
+              {%endif%}                  
             </li>
           </ul>
-          <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
-        </div>
+        </div>      
     </nav>
+    <form action="{{ url_for('logInReq_post') }}" method="POST">
+      <div class="form-group">
+        <label for="InputEmail">Email address</label>
+        <input name = "userEmail" type="email" class="form-control" id="InputEmail" aria-describedby="emailHelp" placeholder="Enter email">
+        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+      </div>
+      <div class="form-group">
+        <label for="InputPassword">Password</label>
+        <input name = "userPassword" type="password" class="form-control" id="InputPassword" placeholder="Password">
+      </div>
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="Check">
+        <label class="form-check-label" for="Check">Remember me</label>
+      </div>
+      <h3></h3>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 </body>
 </html>
 
