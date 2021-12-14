@@ -1,0 +1,9 @@
+[
+    {
+        "email": "john.smith@warwick.ac.uk",
+        "fName": "John",
+        "sName": "Smith",
+        "hash": "$2b$12$UB1IAzryTUWP9bfhMO5Ty.9vSK2IDD5uj96Cr47dU8d.cmCU2WHIa",
+        "user_level": "Student"
+    }
+]
