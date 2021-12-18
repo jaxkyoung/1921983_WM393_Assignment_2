@@ -12,6 +12,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <!-- my css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'QABoard.css') }}">
 </head>
 <body style="min-height: 75rem; padding-top: 5rem;">
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -82,27 +83,25 @@
           </form>
         </div>
     </nav>
+    {%if current_user.userType == 'Tutor'%}
+    <div class="container text-center" style="padding: 1rem;" id="boardCreationButtons">
+      <h6>Board Controls</h6>
+      <div class="col-md-12 text-center"></div>
+        <button style="margin-right: 1rem;" type="button" class="btn btn-primary btn-lg">Create</button>
+        <button style="margin-right: 1rem; margin-left: 1rem;" type="button" class="btn btn-primary btn-lg">Edit</button>
+        <button style="margin-left: 1rem;" type="button" class="btn btn-primary btn-lg">Delete</button>
+      </div>
+    </div>
+    {%endif%}
     <section class="container" style="padding-top: 1rem;">
         <div class="card">
-            <div class="card-header text-dark bg-light mb-3">{{ title }}</div>
+            <div class="card-header text-dark bg-light mb-3">Q&A Boards</div>
             <div class="card-body">
-                <table class="table table-striped">
-                    <tr>
-                        <th>Title</th>
-                        <th>Name</th>
-                        <th>Date</th>
-                        <th>Count</th>
-                    </tr>
-                    {% for post in posts %}
-                    <tr>
-                        <td>{{ post.title }}</td>
-                        <td>{{ post.name }}</td>
-                        <td>{{ post.date }}</td>
-                        <td>{{ post.count }}</td>
-                    </tr>
-                    {% endfor %}
-                </table>
-            </div>      
+              {% for board in boards %}
+              <button style="margin: 1rem;" type="button" class="btn btn-primary btn-lg">{{ board.name }}</button>
+              {% endfor %}
+            </div>   
+            </div>   
         </div>
     </section>
 </body>
