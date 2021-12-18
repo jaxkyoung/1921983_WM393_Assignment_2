@@ -1,47 +1,20 @@
-from appMain import app
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin
+from flask_login import UserMixin, current_user
 # encyption library
 import bcrypt
 from getpass import getpass
 
-db = SQLAlchemy(app)
-
-class QABoard(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    boardName = db.Column(db.String(50), nullable = False)
-
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key = True)
-    email = db.Column(db.String(100), unique = True, nullable = False)
-    password = db.Column(db.String(80), nullable = False)
-    fName = db.Column(db.String(20), nullable = False)
-    sName = db.Column(db.String(30), nullable = False)
-    userType = db.Column(db.String(20), nullable = False)
-
-class PendingUser(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key = True)
-    email = db.Column(db.String(100), unique = True, nullable = False)
-    password = db.Column(db.String(80), nullable = False)
-    fName = db.Column(db.String(20), nullable = False)
-    sName = db.Column(db.String(30), nullable = False)
-    userType = db.Column(db.String(20), nullable = False)
-
-class Question(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    qTitle = db.Column(db.String(500), nullable = False)
-    qBody = db.Column(db.String(1000))
-    postDate = db.Column(db.DateTime)
-    posterId = db.Column(db.Integer, db.ForeignKey(User.id))
-    boardId = db.Column(db.Integer, db.ForeignKey(QABoard.id))
-
-
-
 '''Class to create, read, update, verify, and delete user profiles'''
 class userAccess(object):
 
+    def isLoggedIn():
+        if current_user.is_authenticated:
+            return True
+        else: 
+            return False
+
     # function to add user to json DB, requires valid email, password, first name and surname
-    def addPendingUser(email, password, fName, sName, userType):
+    def addPendingUser(db, PendingUser, email, password, fName, sName, userType):
         # hash the input password
         hash = userAccess.get_hashed_password(password)
         # convert hash to string
@@ -60,51 +33,76 @@ class userAccess(object):
         db.session.add(user)
         db.session.commit()
 
-    def getUserDetails():
+    # function to add user to json DB, requires valid email, password, first name and surname
+    def addUser(db, User, email, password, fName, sName, userType):
+        # hash the input password
+        hash = userAccess.get_hashed_password(password)
+        # convert hash to string
+        hash = str(hash)
+        # extract raw hash
+        hash = hash.split("'")
+        hash = hash[1]
+        # form dictionary to be appended to json DB
+        user = User(   
+            email = email, 
+            password = hash, 
+            fName = fName, 
+            sName = sName,
+            userType = userType
+        )
+        db.session.add(user)
+        db.session.commit()
+
+    def getUserDetails(User):
         users = User.query.all()
-        for user in users:
-            print(user.email)
+        return users
  
-    def getPendingUserDetails():
-        # Opening JSON file
-        f = open('src/pending_users.json')
-        # returns JSON object as
-        # a dictionary
-        data = json.load(f)
-        # Closing file
-        f.close()
-        # Iterating through the json user detials until matching details found
-        return data
+    def getPendingUserDetails(PendingUser):
+        users = PendingUser.query.all()
+        return users
 
     def get_hashed_password(plain_text_password):
         # Hash a password for the first time
         # (Using bcrypt, the salt is saved into the hash itself)
         return bcrypt.hashpw(plain_text_password.encode(), bcrypt.gensalt())
 
-    def check_password(email, plain_text_password):
-        data = userAccess.getUserDetails()
-        for i in data:
-            if i['email'] == email:
-                hashed_password = i['hash']
+    def check_password(User, email, plain_text_password):
+        users = userAccess.getUserDetails(User)
+        for user in users:
+            if user.email == email:
+                hashed_password = user.password
         # Check hashed password. Using bcrypt, the salt is saved into the hash itself
         return bcrypt.checkpw(plain_text_password.encode(), hashed_password.encode())
 
     def checkUser(email, password):
         pass
 
-    def getUserName(email):
-        data = userAccess.getUserDetails()
-        # Iterating through the json user detials until matching details found
-        for i in data:
-            if i['email'] == email:
-                return i['fName'], i['sName']
+    def getUser(User, email):
+        users = User.query.filter_by(email = email)
+        return users
 
-    def getUserType(email):
-        data = userAccess.getUserDetails()
+    def getUserName(User, email):
+        users = userAccess.getUserDetails(User)
         # Iterating through the json user detials until matching details found
-        for i in data:
-            if i['email'] == email:
-                return i['user_type']
+        for user in users:
+            if user.email == email:
+                return user.fName, user.sName
+
+    def getUserFirstName(User, current_user):
+        loggedIn = userAccess.isLoggedIn()
+        if loggedIn:
+            user = User.query.filter_by(id=current_user.id).first()
+            userFirstName = user.fName
+        else:
+            userFirstName = ''
+        return userFirstName
+
+    def getUserType(User, email):
+        users = userAccess.getUserDetails(User)
+        # Iterating through the json user detials until matching details found
+        for user in users:
+            if user.email == email:
+                return user.userType
 
 #userAccess.addPendingUser("john.smith@warwick.ac.uk", "example", "John", "Smith", "student")
 # users = PendingUser.query.all()
