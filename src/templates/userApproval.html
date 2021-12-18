@@ -82,7 +82,7 @@
                         <td>{{ user.userType }}</td>
                         <td>
                           <a class="btn btn-primary" href="/approvals/approve/{{ user.email }}" role="button">Approve</a>
-                          <a class="btn btn-danger" style="padding-left: 1.5rem; padding-right: 1.5rem;" href="#" role="button">Deny</a>
+                          <a class="btn btn-danger" style="padding-left: 1.5rem; padding-right: 1.5rem;" href="/approvals/deny/{{ user.email }}" role="button">Deny</a>
                         </td>
                     </tr>
                     {% endfor %}
