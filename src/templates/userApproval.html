@@ -51,6 +51,19 @@
           </ul>
         </div>      
     </nav>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="container" style="padding-top: 5rem">
+      {% for message in messages %}
+        <div class="alert alert-warning alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+        {{message}}
+        </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}   
+    {% block body %}{% endblock %}
     <section class="container" style="padding-top: 1rem;">
         <div class="card">
             <div class="card-header text-dark bg-light mb-3">{{ title }}</div>
