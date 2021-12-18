@@ -67,8 +67,9 @@ class userAccess(object):
         for user in users:
             if user.email == email:
                 hashed_password = user.password
-        # Check hashed password. Using bcrypt, the salt is saved into the hash itself
-        return bcrypt.checkpw(plain_text_password.encode(), hashed_password.encode())
+                # Check hashed password. Using bcrypt, the salt is saved into the hash itself
+                return bcrypt.checkpw(plain_text_password.encode(), hashed_password.encode())
+        return False   
 
     def getUser(User, email):
         users = User.query.filter_by(email = email).first()
