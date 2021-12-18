@@ -9,6 +9,8 @@
 ## Python Libraries:
 - Flask
 - BCrypt
+- Flask SQLAlchemy
+- Flask Log-in
 
 ## Instructions
 1. Ensure you have access to repo
