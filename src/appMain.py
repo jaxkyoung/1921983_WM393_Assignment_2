@@ -181,6 +181,14 @@ def approveUser(email):
     flash(email + ' shall be approved')
     return render_template('userApproval.html', title='User Access Approvals', users=users)
 
+# deny user processing
+@app.route('/approvals/deny/<email>/')
+def denyUser(email):
+    users = userAccess.getPendingUserDetails(PendingUser)
+    userAccess.denyUser(db, PendingUser, email)
+    flash(email + ' shall be denied access')
+    return render_template('userApproval.html', title='User Access Approvals', users=users)
+
 # home page
 @app.route('/home')
 def goHome():
