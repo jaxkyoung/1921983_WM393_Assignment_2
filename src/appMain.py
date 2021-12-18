@@ -180,16 +180,18 @@ def approveUser(email):
     flash(email + ' shall be approved')
     return render_template('userApproval.html', title='User Access Approvals', users=users)
 
+# home page
 @app.route('/home')
 def goHome():
     return "Home"
 
+# forgot password page
 @app.route('/forgotPasswordPage')
 def forgotPasswordPage():
     #flash('Hello')
     return render_template('forgotPassword.html', authError = False)
 
-
+# Q&A board page
 @app.route('/Q-A-Board')
 @login_required
 def QABoardHome():
