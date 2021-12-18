@@ -81,14 +81,6 @@ class userAccess(object):
             if user.email == email:
                 return user.fName, user.sName
 
-    def getUserFirstName(User, current_user):
-        if current_user.is_authenticated:
-            user = User.query.filter_by(id=current_user.id).first()
-            userFirstName = user.fName
-        else:
-            userFirstName = ''
-        return userFirstName
-
     def getUserType(User, email):
         users = userAccess.getUserDetails(User)
         # Iterating through the json user detials until matching details found
