@@ -86,6 +86,10 @@ posts = [
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+@app.errorhandler(404)
+def bar(error):
+    return render_template('error.html'), 404
+
 # home page, containing default WMGTSS information
 @app.route('/')
 def home():
