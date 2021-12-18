@@ -109,6 +109,7 @@ class userAccess(object):
             if user.email == email:
                 db.session.delete(user)
                 db.session.commit()
+
 #userAccess.addPendingUser("john.smith@warwick.ac.uk", "example", "John", "Smith", "student")
 # users = PendingUser.query.all()
 # for user in users:
