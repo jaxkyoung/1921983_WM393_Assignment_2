@@ -85,11 +85,13 @@
     </nav>
     {%if current_user.userType == 'Tutor'%}
     <div class="container text-center" style="padding: 1rem;" id="boardCreationButtons">
-      <h6>Board Controls</h6>
+      <h6>Admin Board Controls</h6>
       <div class="col-md-12 text-center"></div>
-        <button style="margin-right: 1rem;" type="button" class="btn btn-primary btn-lg">Create</button>
-        <button style="margin-right: 1rem; margin-left: 1rem;" type="button" class="btn btn-primary btn-lg">Edit</button>
-        <button style="margin-left: 1rem;" type="button" class="btn btn-primary btn-lg">Delete</button>
+        <form action="{{ url_for('boardCRUD_post') }}" method="POST">
+          <input class="btn btn-primary btn-lg" style="margin-right: 1rem;" type="submit" name="create" value="Create">
+          <input class="btn btn-primary btn-lg" style="margin-right: 1rem; margin-left: 1rem;" type="submit" name="edit" value="Edit">
+          <input class="btn btn-primary btn-lg" style="margin-left: 1rem;" type="submit" name="delete" value="Delete">
+        </form>
       </div>
     </div>
     {%endif%}
