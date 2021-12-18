@@ -72,6 +72,22 @@ class Question(db.Model):
     posterId = db.Column(db.Integer, db.ForeignKey(User.id))
     boardId = db.Column(db.Integer, db.ForeignKey(QABoard.id))
 
+# answer table to track answers to questions from question tabel, foreign keys linking to question and users
+class Answer(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    aBody = db.Column(db.String(2000))
+    postDate = db.Column(db.DateTime)
+    posterId = db.Column(db.Integer, db.ForeignKey(User.id))
+    questionId = db.Column(db.Integer, db.ForeignKey(Question.id))
+
+# comment table to track comments on questions from question tabel, foreign keys linking to question and users
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    cBody = db.Column(db.String(2000))
+    postDate = db.Column(db.DateTime)
+    posterId = db.Column(db.Integer, db.ForeignKey(User.id))
+    questionId = db.Column(db.Integer, db.ForeignKey(Question.id))
+
 posts = [
     { "title": "The answer for the Session 8 quiz is available on the Moodle", "name": "Young Park", "date": "20 Oct 2021", "count": 2 },
     { "title": "The answers for the quiz today is available on the Moodle", "name": "Young Park", "date": "19 Oct 2021", "count": 3 },
@@ -86,15 +102,17 @@ posts = [
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+# error handler for 404 errors
 @app.errorhandler(404)
 def bar(error):
+    # when 404 error, render error template
     return render_template('error.html'), 404
 
 # home page, containing default WMGTSS information
 @app.route('/')
 def home():
-    userFirstName = userAccess.getUserFirstName(User, current_user)
-    return render_template('home.html', title='Q&A Board', posts=posts, userFirstName = userFirstName)
+    # get first name to show in template
+    return render_template('home.html', title='Q&A Board', posts=posts)
 
 # log out page
 @app.route('/logged-out/')
@@ -107,10 +125,8 @@ def logOut():
 # create account page
 @app.route('/create-account')
 def createAccountPage():
-    # get first name
-    userFirstName = userAccess.getUserFirstName(User, current_user)
     # render create account page
-    return render_template('createAccount.html', userFirstName = userFirstName)
+    return render_template('createAccount.html')
 
 # create account POST method form processing
 @app.route('/create-account', methods=["POST"])
@@ -152,19 +168,17 @@ def createAccount_post():
 @login_required
 def approvalsPage():
     users = userAccess.getPendingUserDetails(PendingUser)
-    userFirstName = userAccess.getUserFirstName(User, current_user)
     if current_user.userType == "Tutor":
-        return render_template('userApproval.html', title='User Access Approvals', users=users, userFirstName = userFirstName)
+        return render_template('userApproval.html', title='User Access Approvals', users=users)
     else:
         return "Student's arent allowed on this page"
 
 # user approval processing
 @app.route('/approvals/approve/<email>/')
 def approveUser(email):
-    userFirstName = userAccess.getUserFirstName(User, current_user)
     users = userAccess.getPendingUserDetails(PendingUser)
     flash(email + ' shall be approved')
-    return render_template('userApproval.html', title='User Access Approvals', users=users, userFirstName = userFirstName)
+    return render_template('userApproval.html', title='User Access Approvals', users=users)
 
 @app.route('/home')
 def goHome():
@@ -173,36 +187,42 @@ def goHome():
 @app.route('/forgotPasswordPage')
 def forgotPasswordPage():
     #flash('Hello')
-    userFirstName = userAccess.getUserFirstName(User, current_user)
-    return render_template('forgotPassword.html', userFirstName = userFirstName, authError = False)
+    return render_template('forgotPassword.html', authError = False)
 
 
 @app.route('/Q-A-Board')
 @login_required
 def QABoardHome():
-    userFirstName = userAccess.getUserFirstName(User, current_user)
-    return render_template('QABoard.html', title='Q&A Board', posts=posts, userFirstName = userFirstName)
+    return render_template('QABoard.html', title='Q&A Board', posts=posts)
 
+# log in page
 @app.route('/log-in')
 def logInReq():
-    userFirstName = userAccess.getUserFirstName(User, current_user)
-    return render_template('logIn2.html', userFirstName = userFirstName, authError = False)
+    # render logIn template 
+    return render_template('logIn2.html', authError = False)
 
+# function to handle login form POST request
 @app.route('/log-in', methods=['POST'])
 def logInReq_post():
+    # get email and password from form
     userEmail = request.form["userEmail"]
     userPassword = request.form["userPassword"]
+    # check if password and email match database
     check = userAccess.check_password(User, userEmail, userPassword)
+    # if check is true
     if check == True:
-        users = userAccess.getUser(User, userEmail)
-        for user in users:
-            if user.email == userEmail:
-                login_user(user)
+        # get user from db
+        user = userAccess.getUser(User, userEmail)
+        if user.email == userEmail:
+            # log in user
+            login_user(user)
+        # return confirmation of login and redirect
         return 'You are logged in, you will be redirected in 3 seconds', {"Refresh": "3; url = /"}
     else:
-        userFirstName = ''
-        return render_template('logIn2.html', userFirstName = userFirstName, authError = True)
+        # if check is false, then user not logged in, flag error in password or email. 
+        return render_template('logIn2.html', authError = True)
 
+# run app
 if __name__ == '__main__':
     app.secret_key = ('super secret key')
     app.run(debug=True)
