@@ -88,6 +88,20 @@ class userAccess(object):
             if user.email == email:
                 return user.userType
 
+    def approveUser(db, PendingUser, User, email):
+        users = userAccess.getPendingUserDetails(PendingUser)
+        for user in users:
+            if user.email == email:
+                user_to_approve = User(
+                    email = user.email, 
+                    password = user.password, 
+                    fName = user.fName, 
+                    sName = user.sName, 
+                    userType = user.userType
+                )
+                db.session.delete(user)
+                db.session.add(user_to_approve)
+                db.session.commit()
 #userAccess.addPendingUser("john.smith@warwick.ac.uk", "example", "John", "Smith", "student")
 # users = PendingUser.query.all()
 # for user in users:

@@ -177,6 +177,7 @@ def approvalsPage():
 @app.route('/approvals/approve/<email>/')
 def approveUser(email):
     users = userAccess.getPendingUserDetails(PendingUser)
+    userAccess.approveUser(db, PendingUser, User, email)
     flash(email + ' shall be approved')
     return render_template('userApproval.html', title='User Access Approvals', users=users)
 
