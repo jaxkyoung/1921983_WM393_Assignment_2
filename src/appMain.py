@@ -1,30 +1,51 @@
+# flask library for main website building
 from flask import Flask
+
+# flask library to generate url for function
 from flask import url_for
+
+# flask function to load jinja template
 from flask import render_template
+
+# for form processing
 from flask import request
+
+# for short term screen prompts/messages
 from flask import flash
+
+# flask library to redirect to another page
 from flask import redirect
+
+# flask libraries to handle user logins and account tracking
 from flask_login import UserMixin, login_manager, login_user, LoginManager, login_required, logout_user, current_user
+
+# SQLAlchemy for database creation and updating
 from flask_sqlalchemy import SQLAlchemy
 
 # class containing methods to access and write users to database
 from dbAccess import userAccess
 
+# initialising flask app and path to database
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///WMGTSS.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+# initalising login manager
 login_manager = LoginManager()
 login_manager.init_app(app)
+# link to log in page
 login_manager.login_view = "logInReq"
 
+# initialising database
 db = SQLAlchemy(app)
 
 # database table defnitions
+# board table, to track Q&A boards
 class QABoard(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     boardName = db.Column(db.String(50), nullable = False)
 
+# user table, to track current registered users that have been approved
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
     email = db.Column(db.String(100), unique = True, nullable = False)
@@ -33,6 +54,7 @@ class User(db.Model, UserMixin):
     sName = db.Column(db.String(30), nullable = False)
     userType = db.Column(db.String(20), nullable = False)
 
+# pending user table, to track pending users waiting for access approval
 class PendingUser(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
     email = db.Column(db.String(100), unique = True, nullable = False)
@@ -41,6 +63,7 @@ class PendingUser(db.Model, UserMixin):
     sName = db.Column(db.String(30), nullable = False)
     userType = db.Column(db.String(20), nullable = False)
 
+# question table to track questions being asked on posts, with foreign keys linking to users and boards
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     qTitle = db.Column(db.String(500), nullable = False)
@@ -58,29 +81,37 @@ posts = [
     { "title": "Welcome to WM393 module", "name": "Young Park", "date": "05 Sep 2021", "count": 8 }
 ]
 
+# user loader to remember previously visited users
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+# home page, containing default WMGTSS information
 @app.route('/')
 def home():
-    loggedIn = userAccess.isLoggedIn()
     userFirstName = userAccess.getUserFirstName(User, current_user)
-    return render_template('home.html', title='Q&A Board', posts=posts, userFirstName = userFirstName, loggedIn = loggedIn)
+    return render_template('home.html', title='Q&A Board', posts=posts, userFirstName = userFirstName)
 
+# log out page
 @app.route('/logged-out/')
 def logOut():
+    # flask function to logout user
     logout_user()
+    # after being logged out, redirect in 3 seconds to home
     return 'You are logged out, you will be redirected in 3 seconds', {"Refresh": "3; url = /"}
 
+# create account page
 @app.route('/create-account')
 def createAccountPage():
-    loggedIn = userAccess.isLoggedIn()
+    # get first name
     userFirstName = userAccess.getUserFirstName(User, current_user)
-    return render_template('createAccount.html', userFirstName = userFirstName, loggedIn = loggedIn)
+    # render create account page
+    return render_template('createAccount.html', userFirstName = userFirstName)
 
+# create account POST method form processing
 @app.route('/create-account', methods=["POST"])
 def createAccount_post():
+    # get form results
     userFirstNameInput = request.form["userFirstNameInput"]
     userSurnameInput = request.form["userSurnameInput"]
     userEmail = request.form["userEmail"]
@@ -88,6 +119,7 @@ def createAccount_post():
     userType = request.form["userType"]
     userPasswordRepeat = request.form["userPasswordRepeat"]
 
+    # check user type and change to text
     if userType == "2":
         userType = "Tutor"
     elif userType == "3":
@@ -95,33 +127,40 @@ def createAccount_post():
     elif userType == "4":
         userType = "Student"
 
-    print(userType)
-
+    # if user password matches repeated password
     if userPassword == userPasswordRepeat:
+        # AND email does not already exist
         notExists = db.session.query(User.id).filter_by(email=userEmail).first() is None
         if notExists:
+            # if tutor or TA
             if userType == "Tutor" or userType == "Teaching Assistant":
+                # add to pending users
                 userAccess.addPendingUser(db, PendingUser, userEmail, userPassword, userFirstNameInput, userSurnameInput, userType)
                 return 'You have created a privileged account with email: ' + userEmail + ', you will be redirected in 3 seconds', {"Refresh": "3; url = /"}
+            # if student, activate account immediately
             elif userType == "Student":
                 userAccess.addUser(db, User, userEmail, userPassword, userFirstNameInput, userSurnameInput, userType)
                 return 'You have created a standard account with email: ' + userEmail + ', you will be redirected in 3 seconds', {"Refresh": "3; url = /"}
 
+# user approval page
 @app.route('/approvals')
+# login required for this page
 @login_required
 def approvalsPage():
     users = userAccess.getPendingUserDetails(PendingUser)
-    loggedIn = userAccess.isLoggedIn()
     userFirstName = userAccess.getUserFirstName(User, current_user)
-    return render_template('userApproval.html', title='User Access Approvals', users=users, userFirstName = userFirstName, loggedIn = loggedIn)
+    if current_user.userType == "Tutor":
+        return render_template('userApproval.html', title='User Access Approvals', users=users, userFirstName = userFirstName)
+    else:
+        return "Student's arent allowed on this page"
 
+# user approval processing
 @app.route('/approvals/approve/<email>/')
 def approveUser(email):
-    loggedIn = userAccess.isLoggedIn()
     userFirstName = userAccess.getUserFirstName(User, current_user)
     users = userAccess.getPendingUserDetails(PendingUser)
     flash(email + ' shall be approved')
-    return render_template('userApproval.html', title='User Access Approvals', users=users, userFirstName = userFirstName, loggedIn = loggedIn)
+    return render_template('userApproval.html', title='User Access Approvals', users=users, userFirstName = userFirstName)
 
 @app.route('/home')
 def goHome():
@@ -130,27 +169,23 @@ def goHome():
 @app.route('/forgotPasswordPage')
 def forgotPasswordPage():
     #flash('Hello')
-    loggedIn = userAccess.isLoggedIn()
     userFirstName = userAccess.getUserFirstName(User, current_user)
-    return render_template('forgotPassword.html', loggedIn = loggedIn, userFirstName = userFirstName, authError = False)
+    return render_template('forgotPassword.html', userFirstName = userFirstName, authError = False)
 
 
 @app.route('/Q-A-Board')
 @login_required
 def QABoardHome():
-    loggedIn = userAccess.isLoggedIn()
     userFirstName = userAccess.getUserFirstName(User, current_user)
-    return render_template('QABoard.html', title='Q&A Board', posts=posts, userFirstName = userFirstName, loggedIn = loggedIn)
+    return render_template('QABoard.html', title='Q&A Board', posts=posts, userFirstName = userFirstName)
 
 @app.route('/log-in')
 def logInReq():
-    loggedIn = userAccess.isLoggedIn()
     userFirstName = userAccess.getUserFirstName(User, current_user)
-    return render_template('logIn2.html', loggedIn = loggedIn, userFirstName = userFirstName, authError = False)
+    return render_template('logIn2.html', userFirstName = userFirstName, authError = False)
 
 @app.route('/log-in', methods=['POST'])
 def logInReq_post():
-    loggedIn = userAccess.isLoggedIn()
     userEmail = request.form["userEmail"]
     userPassword = request.form["userPassword"]
     check = userAccess.check_password(User, userEmail, userPassword)
@@ -162,7 +197,7 @@ def logInReq_post():
         return 'You are logged in, you will be redirected in 3 seconds', {"Refresh": "3; url = /"}
     else:
         userFirstName = ''
-        return render_template('logIn2.html', loggedIn = loggedIn, userFirstName = userFirstName, authError = True)
+        return render_template('logIn2.html', userFirstName = userFirstName, authError = True)
 
 if __name__ == '__main__':
     app.secret_key = ('super secret key')
