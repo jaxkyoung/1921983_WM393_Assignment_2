@@ -82,7 +82,7 @@ class userAccess(object):
                 return user.fName, user.sName
 
     def getUserFirstName(User, current_user):
-        if current_user.is_authenticated():
+        if current_user.is_authenticated:
             user = User.query.filter_by(id=current_user.id).first()
             userFirstName = user.fName
         else:
