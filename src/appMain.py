@@ -17,7 +17,8 @@ from flask import flash
 from flask import redirect
 
 # flask libraries to handle user logins and account tracking
-from flask_login import UserMixin, login_manager, login_user, LoginManager, login_required, logout_user, current_user
+from flask_login import UserMixin, login_manager, login_user, 
+from flask_login import LoginManager, login_required, logout_user, current_user
 
 # SQLAlchemy for database creation and updating
 from flask_sqlalchemy import SQLAlchemy
@@ -63,7 +64,8 @@ class PendingUser(db.Model, UserMixin):
     sName = db.Column(db.String(30), nullable = False)
     userType = db.Column(db.String(20), nullable = False)
 
-# question table to track questions being asked on posts, with foreign keys linking to users and boards
+# question table to track questions being asked on posts
+# with foreign keys linking to users and boards
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     qTitle = db.Column(db.String(500), nullable = False)
@@ -72,7 +74,8 @@ class Question(db.Model):
     posterId = db.Column(db.Integer, db.ForeignKey(User.id))
     boardId = db.Column(db.Integer, db.ForeignKey(QABoard.id))
 
-# answer table to track answers to questions from question tabel, foreign keys linking to question and users
+# answer table to track answers to questions from question tabel
+# foreign keys linking to question and users
 class Answer(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     aBody = db.Column(db.String(2000))
@@ -80,7 +83,8 @@ class Answer(db.Model):
     posterId = db.Column(db.Integer, db.ForeignKey(User.id))
     questionId = db.Column(db.Integer, db.ForeignKey(Question.id))
 
-# comment table to track comments on questions from question tabel, foreign keys linking to question and users
+# comment table to track comments on questions from question tabel
+# foreign keys linking to question and users
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     cBody = db.Column(db.String(2000))
