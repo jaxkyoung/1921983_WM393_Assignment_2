@@ -3,7 +3,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>WMGTSS: Home</title>
 
     <!-- Bootstrap 4 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -12,77 +12,79 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <!-- my css -->
-    
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'home.css') }}">
 </head>
 <body style="min-height: 75rem; padding-top: 5rem;">
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="#">
-            <image src="{{url_for('static',filename = 'images/wmglogo.png')}}" width = "60" height = "50" class="d-inline-block align-middle" href="{{ url_for('goHome') }}" alt="">
-            WMG Teaching Support System
-        </a>
-        <div class="navbar" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="{{ url_for('home') }}">Home</a>
-            </li>
-            <li class="nav-item dropdown">
-              {% if current_user.is_authenticated %}
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  {{current_user.fName}}'s Profile
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">View Profile</a>
-                  <a class="dropdown-item" href="#">Settings</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="{{url_for('logOut')}}">Log Out</a>
-                </div>
-              {%else%}
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Profile
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Settings</a>                  
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="{{url_for('createAccountPage')}}">Create Account</a>
-                  <a class="dropdown-item" href="{{url_for('logInReq')}}">Log In</a>
-                </div>
-              {%endif%}                    
-            </li>
-          </ul>
-        </div>      
-    </nav>
-    <nav class="navbar navbar-expand-sm navbar-light bg-light">
-        <a class="navbar-brand" href="#">Navigation</a>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('QABoardHome')}}">Q&A</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled" href="#">Lecture</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Resource</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Notice</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Calendar</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Quiz</a>
-            </li>
-          </ul>
-          <form class="form-inline my-2 my-lg-0" >
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
-        </div>
-    </nav>
-    <section style="padding: 1rem;">
-      <h2>Hello World, this is the home page</h2>
-    </section>
+  <div class="bg">
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="#">
+          <image src="{{url_for('static',filename = 'images/wmglogo.png')}}" width = "60" height = "50" class="d-inline-block align-middle" href="{{ url_for('goHome') }}" alt="">
+          WMG Teaching Support System
+      </a>
+      <div class="navbar" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+          </li>
+          <li class="nav-item dropdown">
+            {% if current_user.is_authenticated %}
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{current_user.fName}}'s Profile
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">View Profile</a>
+                <a class="dropdown-item" href="#">Settings</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{{url_for('logOut')}}">Log Out</a>
+              </div>
+            {%else%}
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Profile
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Settings</a>                  
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{{url_for('createAccountPage')}}">Create Account</a>
+                <a class="dropdown-item" href="{{url_for('logInReq')}}">Log In</a>
+              </div>
+            {%endif%}                    
+          </li>
+        </ul>
+      </div>      
+  </nav>
+  <nav class="navbar navbar-expand-sm navbar-light bg-light">
+      <a class="navbar-brand" href="#">Navigation</a>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('QABoardHome')}}">Q&A</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">Lecture</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link disabled" href="#">Resource</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link disabled" href="#">Notice</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link disabled" href="#">Calendar</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link disabled" href="#">Quiz</a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0" >
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </div>
+  </nav>
+  <div class="container text-center" style="padding: 1rem;">
+    <h4 class="display-4">Welcome to WMGTSS</h2>
+  </div>
+  </div>
 </body>
 </html>
 
