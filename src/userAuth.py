@@ -61,7 +61,7 @@ class userAccess(object):
 
     def check_password(email, plain_text_password):
         data = userAccess.getUserDetails()
-        for i in data['user_details']:
+        for i in data:
             if i['email'] == email:
                 hashed_password = i['hash']
         # Check hashed password. Using bcrypt, the salt is saved into the hash itself

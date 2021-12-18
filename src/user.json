@@ -1,22 +1,23 @@
-{
-    "user_details": [
-        {
-            "email": "tutor@warwick.ac.uk",
-            "fName": "Young",
-            "sName": "Park",
-            "hash": "$2b$12$7WAqHTRXjj3/wIRUlhrBqeD8ImGVx2kmNKipnZNUBkLczzkkW6OES"
-        },
-        {
-            "email": "student@warwick.ac.uk",
-            "fName": "Joe",
-            "sName": "Bloggs",
-            "hash": "$2b$12$HwZY798mWqK4UtKu8SNWOOu2yAiykVoIrwzJ.SJbLUh3oAW.Mra/e"
-        },
-        {
-            "email": "john.smith@warwick.ac.uk",
-            "fName": "John",
-            "sName": "Smith",
-            "hash": "$2b$12$UB1IAzryTUWP9bfhMO5Ty.9vSK2IDD5uj96Cr47dU8d.cmCU2WHIa"
-        }
-    ]
-}
+[
+    {
+        "email": "tutor@warwick.ac.uk",
+        "fName": "Young",
+        "sName": "Park",
+        "hash": "$2b$12$7WAqHTRXjj3/wIRUlhrBqeD8ImGVx2kmNKipnZNUBkLczzkkW6OES",
+        "userType": "Tutor"
+    },
+    {
+        "email": "student@warwick.ac.uk",
+        "fName": "Joe",
+        "sName": "Bloggs",
+        "hash": "$2b$12$HwZY798mWqK4UtKu8SNWOOu2yAiykVoIrwzJ.SJbLUh3oAW.Mra/e",
+        "userType": "Student"
+    },
+    {
+        "email": "john.smith@warwick.ac.uk",
+        "fName": "John",
+        "sName": "Smith",
+        "hash": "$2b$12$UB1IAzryTUWP9bfhMO5Ty.9vSK2IDD5uj96Cr47dU8d.cmCU2WHIa",
+        "userType": "Student"
+    }
+]
