@@ -5,25 +5,21 @@ from getpass import getpass
 '''Class to create, read, update, verify, and delete user profiles'''
 class boardAccess(object):
 
-    # function to add user to json DB, requires valid email, password, first name and surname
-    def addPendingUser(db, PendingUser, email, password, fName, sName, userType):
-        # hash the input password
-        hash = userAccess.get_hashed_password(password)
-        # convert hash to string
-        hash = str(hash)
-        # extract raw hash
-        hash = hash.split("'")
-        hash = hash[1]
-        # form dictionary to be appended to json DB
-        user = PendingUser(   
-            email = email, 
-            password = hash, 
-            fName = fName, 
-            sName = sName,
-            userType = userType
+    def createBoard(db, QABoard, boardName):
+        new_board = QABoard(
+            boardName = boardName
         )
-        db.session.add(user)
+        db.session.add(new_board)
         db.session.commit()
+
+    def deleteBoard(db, QABoard, boardId):
+        board = QABoard.query.filter_by(id=boardId).first()
+        db.session.delete(board)
+        db.session.commit()
+    
+    def getBoards(QABoard):
+        boards = QABoard.query.all()
+        return boards
 
     # function to add user to json DB, requires valid email, password, first name and surname
     def addUser(db, User, email, password, fName, sName, userType):
