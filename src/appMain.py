@@ -138,25 +138,25 @@ def home():
 @app.route('/Q-A-Board')
 @login_required
 def QABoardHome():
-    #boards = boardAccess.getBoards(db, QABoard)
-    boards = []
+    boards = boardAccess.getBoards(QABoard)
     return render_template('QABoard.html', boards=boards)
 
 # Q&A board CRUD button processing
 @app.route('/Q-A-Board', methods=['POST'])
-def boardCRUD_post():
-    if 'create' in request.form:
-        return redirect(url_for('createQABoard'))
-    elif 'edit' in request.form:
-        return redirect(url_for('editQABoard'))
-    elif 'delete' in request.form:
-        return redirect(url_for('deleteQABoard'))
+def createQABoard_post():
+    boardName = request.form['boardName']
+    boardAccess.createBoard(db, QABoard, boardName)
+    return redirect(url_for('QABoardHome'))
 
-# create a board page
-@app.route('/Q-A-Board/create')
-def createQABoard():
-    return 'Create board'
-    #return render_template('createBoard.html')
+@app.route('/Q-A-Board', methods=['POST'])
+def editQABoard_post():
+    pass
+
+@app.route('/Q-A-Board', methods=['POST'])
+def deleteQABoard_post():
+    boardId = request.form['boardId']
+    boardAccess.deleteBoard(boardId)
+    return redirect(url_for('QABoardHome'))
 
 '''User Log-in, Log-out, and approval pages'''
 # log in page
