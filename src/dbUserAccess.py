@@ -71,10 +71,12 @@ class userAccess(object):
                 return bcrypt.checkpw(plain_text_password.encode(), hashed_password.encode())
         return False   
 
+    # returns user record associated with email
     def getUser(User, email):
         users = User.query.filter_by(email = email).first()
         return users
 
+    # returns users first and surname when passed email
     def getUserName(User, email):
         users = userAccess.getUserDetails(User)
         # Iterating through the json user detials until matching details found
@@ -82,13 +84,12 @@ class userAccess(object):
             if user.email == email:
                 return user.fName, user.sName
 
+    # returns user type of passed user email
     def getUserType(User, email):
-        users = userAccess.getUserDetails(User)
-        # Iterating through the json user detials until matching details found
-        for user in users:
-            if user.email == email:
-                return user.userType
+        user = User.query.filter_by(email = email).first()
+        return user.userType
 
+    # returns nothing, function denies user registration, i.e. moves user from PendingUser -> to User table
     def approveUser(db, PendingUser, User, email):
         users = userAccess.getPendingUserDetails(PendingUser)
         for user in users:
@@ -104,6 +105,7 @@ class userAccess(object):
                 db.session.add(user_to_approve)
                 db.session.commit()
 
+    # returns nothing, function approves user, i.e. deletes user from PendingUser
     def denyUser(db, PendingUser, email):
         users = userAccess.getPendingUserDetails(PendingUser)
         for user in users:
