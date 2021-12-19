@@ -23,6 +23,7 @@ from flask_login import LoginManager, login_required, logout_user, current_user
 # SQLAlchemy for database creation and updating
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import backref
+from flask_migrate import Migrate
 
 # class containing methods to access and write users to database
 from dbUserAccess import userAccess
@@ -41,12 +42,15 @@ login_manager.login_view = "logInReq"
 
 # initialising database
 db = SQLAlchemy(app)
+# to handle adding or removing of columns of already created DB
+migrate = Migrate(app, db)
 
 # database table defnitions
 # board table, to track Q&A boards
 class QABoard(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     boardName = db.Column(db.String(50), nullable = False)
+    backImg = db.Column(db.String(100), nullable = True)
     questions = db.relationship('Question', backref='board')
 
 # user table, to track current registered users that have been approved
@@ -109,6 +113,8 @@ posts = [
     { "title": "Welcome to WM393 module", "name": "Young Park", "date": "05 Sep 2021", "count": 8 }
 ]
 
+
+''' Misc and Error Handling'''
 # user loader to remember previously visited users
 @login_manager.user_loader
 def load_user(user_id):
@@ -121,7 +127,7 @@ def bar(error):
     return render_template('error.html'), 404
 
 
-
+'''Home Page'''
 # home page
 @app.route('/home')
 def goHome():
@@ -132,6 +138,7 @@ def goHome():
 def home():
     # get first name to show in template
     return render_template('home.html', title='Q&A Board', posts=posts)
+
 
 '''Q&A board page, board creation and deletion'''
 # Q&A board page
@@ -148,10 +155,12 @@ def createQABoard_post():
     boardAccess.createBoard(db, QABoard, boardName)
     return redirect(url_for('QABoardHome'))
 
+# Q&A board edit board
 @app.route('/Q-A-Board', methods=['POST'])
 def editQABoard_post():
     pass
 
+# Q&A board delete board
 @app.route('/Q-A-Board', methods=['POST'])
 def deleteQABoard_post():
     boardId = request.form['boardId']
@@ -268,7 +277,7 @@ def denyUser(email):
     flash(email + ' shall be denied access')
     return render_template('userApproval.html', title='User Access Approvals', users=users)
 
-
+'''Flask App Initialisation'''
 # run app
 if __name__ == '__main__':
     app.secret_key = ('super secret key')
