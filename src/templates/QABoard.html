@@ -14,7 +14,7 @@
     <!-- my css -->
     <link rel="stylesheet" href="{{ url_for('static', filename = 'QABoard.css') }}">
 </head>
-<body style="min-height: 75rem; padding-top: 5rem;">
+<body style="min-height: 100rem; padding-top: 5rem;">
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <a class="navbar-brand" href="#">
             <image src="{{url_for('static',filename = 'images/wmglogo.png')}}" width = "60" height = "50" class="d-inline-block align-middle" href="{{ url_for('goHome') }}" alt="">
@@ -99,12 +99,17 @@
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="{{ url_for('createQABoard_post') }}">
+            <form method="POST" action="{{ url_for('createQABoard_post') }}" enctype="multipart/form-data">
               <div class="modal-body">
                 <div class="form-group">
                   <label for="InputEmail">Board Name</label>
                   <input name = "boardName" type="text" class="form-control" id="InputBoard" aria-describedby="emailHelp" placeholder="Enter board name" required>
                   <small id="boardHelp" class="form-text text-muted">Each board must have a name</small>
+                </div>
+                <div class="form-group">
+                  <label for="InputEmail">Image Path</label>
+                  <input name = "imgPath" type="file" class="form-control" id="InputBoard" aria-describedby="emailHelp" placeholder="Enter board name" required>
+                  <small id="boardHelp" class="form-text text-muted">Each board must have a background image</small>
                 </div>
               </div>
               <div class="modal-footer">
@@ -162,17 +167,27 @@
       </div>
     </div>
     {%endif%}
-    <section class="container" style="padding-top: 1rem;">
-        <div class="card">
-            <div class="card-header text-dark bg-light mb-3">Q&A Boards</div>
+    <div class="container" style="padding-top: 1rem;">
+      <div class="card">
+        <div class="card-header text-dark bg-light mb-3">Q&A Boards</div>
+          <div class="row">
+            {% for board in boards %}
             <div class="card-body">
-              {% for board in boards %}
-              <button style="margin: 1rem;" type="button" class="btn btn-primary btn-lg">{{ board.boardName }}</button>
-              {% endfor %}
-            </div>   
-            </div>   
-        </div>
-    </section>
+              <div class = "col-sm-4">
+                <div class="card" style="width: 18rem;">
+                  <img class="card-img-top" src="{{url_for('static',filename = 'uploads/' + board.backImg)}}"  alt="Card image cap">
+                  <div class="card-body">
+                    <h5 class="card-title">{{board.boardName}}</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go to board</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+      </div>  
+    </div>
 </body>
 </html>
 
