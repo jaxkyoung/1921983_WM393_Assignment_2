@@ -14,9 +14,10 @@ def getDateTime():
 '''Class to create, read, update, verify, and delete user profiles'''
 class boardAccess(object):
 
-    def createBoard(db, QABoard, boardName):
+    def createBoard(db, QABoard, boardName, imgPath):
         new_board = QABoard(
-            boardName = boardName
+            boardName = boardName,
+            backImg = imgPath
         )
         db.session.add(new_board)
         db.session.commit()
@@ -35,13 +36,13 @@ class boardAccess(object):
         board.boardName = boardName
         db.session.commit()
 
-    def addQuestion(db, Question, qTitle, qBody, boardId, posterId=current_user.id):
+    def addQuestion(db, Question, qTitle, qBody, boardId):
         now = getDateTime()
         new_question = Question(
             qTitle = qTitle,
             qBody = qBody,
             postDate = now,
-            posterId = posterId,
+            posterId = current_user.id,
             boardId = boardId
         )
         db.session.add(new_question)
@@ -52,14 +53,13 @@ class boardAccess(object):
         db.session.delete(question)
         db.session.commit()
 
-    def addAnswer(db, Answer, aBody, questionId, posterId=current_user.id):
+    def addAnswer(db, Answer, aBody, questionId):
         now = getDateTime()
         new_answer = Answer(
             aBody = aBody,
             postDate = now,
-            posterId = posterId,
+            posterId = current_user.id,
             questionId = questionId
         )
         db.session.add(new_answer)
         db.session.commit()
-        
