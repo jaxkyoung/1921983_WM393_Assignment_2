@@ -99,7 +99,7 @@
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="{{ url_for('createQABoard_post') }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ url_for('QABoard_post') }}" enctype="multipart/form-data">
               <div class="modal-body">
                 <div class="form-group">
                   <label for="InputEmail">Board Name</label>
@@ -114,7 +114,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary">Create board</button>
+                <button value = 'createBoardSubmit' name='action' type="submit" class="btn btn-primary">Create board</button>
               </div>
             </form>
             </div>
@@ -133,7 +133,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                ...
+              ...
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -154,13 +154,20 @@
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+            <form action="{{ url_for('QABoard_post') }}" method="POST">
+              <div class="modal-body">
+                <select class="select" name="boardId">
+                  <option value="0">Select Board Name</option>
+                  {% for board in boards %}
+                  <option value="{{ board.id }}">{{ board.boardName }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                <button value = 'deleteBoardSubmit' name='action' type="submit" class="btn btn-primary">Delete Board</button>
+              </div>
+            </form>
             </div>
         </div>
       </div>  
