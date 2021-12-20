@@ -1,3 +1,9 @@
+'''Library imports'''
+# file saving and path locating libraries
+import os
+from os.path import join, dirname, realpath
+from werkzeug.utils import secure_filename
+
 # flask library for main website building
 from flask import Flask
 
@@ -33,6 +39,9 @@ from dbBoardAccess import boardAccess
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///WMGTSS.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+UPLOAD_FOLDER = join(dirname(realpath(__file__)), 'static/uploads')
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # initalising login manager
 login_manager = LoginManager()
@@ -150,22 +159,19 @@ def QABoardHome():
 
 # Q&A board CRUD button processing
 @app.route('/Q-A-Board', methods=['POST'])
-def createQABoard_post():
-    boardName = request.form['boardName']
-    boardAccess.createBoard(db, QABoard, boardName)
-    return redirect(url_for('QABoardHome'))
+def QABoard_post():
+    if request.form['action'] == 'createBoardSubmit':
+        boardName = request.form['boardName']
+        f = request.files['imgPath']
+        filename = secure_filename(f.filename)
+        f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        boardAccess.createBoard(db, QABoard, boardName, filename)
+    if request.form['action'] == 'deleteBoardSubmit':
+        print(request.form['action'])
+        boardId = request.form['boardId']
+        boardAccess.deleteBoard(db, QABoard, boardId)
+    return redirect(url_for('QABoardHome'))   
 
-# Q&A board edit board
-@app.route('/Q-A-Board', methods=['POST'])
-def editQABoard_post():
-    pass
-
-# Q&A board delete board
-@app.route('/Q-A-Board', methods=['POST'])
-def deleteQABoard_post():
-    boardId = request.form['boardId']
-    boardAccess.deleteBoard(boardId)
-    return redirect(url_for('QABoardHome'))
 
 '''User Log-in, Log-out, and approval pages'''
 # log in page
