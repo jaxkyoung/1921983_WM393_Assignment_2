@@ -144,7 +144,7 @@ def goHome():
 @app.route('/')
 def home():
     # get first name to show in template
-    return render_template('home.html', title='Q&A Board', posts=posts)
+    return render_template('home.html')
 
 
 '''Q&A board page, board creation and deletion'''
