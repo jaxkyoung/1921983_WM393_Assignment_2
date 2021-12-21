@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename = 'QABoard.css') }}">
 </head>
 <body style="min-height: 100rem; padding-top: 5rem;">
+  <div class="bg">
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <a class="navbar-brand" href="#">
             <image src="{{url_for('static',filename = 'images/wmglogo.png')}}" width = "60" height = "50" class="d-inline-block align-middle" href="{{ url_for('goHome') }}" alt="">
@@ -200,7 +201,7 @@
                   <div class="card-body">
                     <h5 class="card-title">{{board.boardName}}</h5>
                     <p class="card-text">{{ board.boardDesc }}</p>
-                    <a href="#" class="btn btn-primary">Go to board</a>
+                    <a href="/Q-A-Board/id/{{ board.id }}" class="btn btn-primary">Go to board</a>
                   </div>
                 </div>
               </div>
@@ -209,6 +210,7 @@
           </div>
       </div>  
     </div>
+  </div>
 </body>
 </html>
 

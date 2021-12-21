@@ -84,111 +84,6 @@
           </form>
         </div>
     </nav>
-    {%if current_user.userType == 'Tutor'%}
-    <div class="container text-center" style="padding-top: 1rem;" id="boardCreationButtons">
-      <h6>Admin Board Controls</h6>
-      <div class="col-md-12 text-center">
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createBoardModal">Create</button>
-        <!-- Modal -->
-        <div class="modal fade" id="createBoardModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Create Board</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form method="POST" action="{{ url_for('QABoard_post') }}" enctype="multipart/form-data">
-              <div class="modal-body">
-                <div class="form-group">
-                  <label for="InputName">Board Name</label>
-                  <input name = "boardName" type="text" class="form-control" id="InputBoard" aria-describedby="emailHelp" placeholder="Enter board name" required>
-                  <small id="boardHelp" class="form-text text-muted">Each board must have a name</small>
-                </div>
-                <div class="form-group">
-                  <label for="InputDesc">Board Description</label>
-                  <input name = "boardDesc" type="text" class="form-control" id="InputBoard" aria-describedby="emailHelp" placeholder="Enter board desciption" required>
-                  <small id="boardHelp" class="form-text text-muted">Each board can have a desciption</small>
-                </div>
-                <div class="form-group">
-                  <label for="InputPath">Image Path</label>
-                  <input name = "imgPath" type="file" class="form-control" id="InputBoard" aria-describedby="emailHelp" placeholder="Choose an image" required>
-                  <small id="boardHelp" class="form-text text-muted">Each board must have a background image</small>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                <button value = 'createBoardSubmit' name='action' type="submit" class="btn btn-primary">Create board</button>
-              </div>
-            </form>
-            </div>
-        </div>
-        </div>
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editBoardModal">Edit</button>
-        <!-- Modal -->
-        <div class="modal fade" id="editBoardModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit Board</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-              <form action="{{ url_for('QABoard_post') }}" method="POST">
-                <div class="modal-body">
-                  <select class="select" name="boardId">
-                    <option value="0">Select Board Name</option>
-                    {% for board in boards %}
-                    <option value="{{ board.id }}">{{ board.boardName }}</option>
-                    {% endfor %}
-                  </select>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                  <button value='editBoardSubmit' name='action' type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-              </form>
-            </div>
-            </div>
-        </div>
-        </div>
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteBoardModal">Delete</button>
-        <!-- Modal -->
-        <div class="modal fade" id="deleteBoardModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Delete Board</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="{{ url_for('QABoard_post') }}" method="POST">
-              <div class="modal-body">
-                <select class="select" name="boardId">
-                  <option value="0">Select Board Name</option>
-                  {% for board in boards %}
-                  <option value="{{ board.id }}">{{ board.boardName }}</option>
-                  {% endfor %}
-                </select>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                <button value = 'deleteBoardSubmit' name='action' type="submit" class="btn btn-primary">Delete Board</button>
-              </div>
-            </form>
-            </div>
-        </div>
-      </div>  
-      </div>
-    </div>
-    {%endif%}
     <div class="container" style="padding-top: 1rem;">
       <div class="card">
         <div class="card-header text-dark bg-light mb-3">{{ board.boardName }}</div>
@@ -282,7 +177,7 @@
             {% endfor %}
             {%else%}
             <div class="card-body">
-              <h5 style="text-align: center;">No questions in this board</h5>
+              <h5 style="text-align: center;">Ask a question! It will show up here.</h5>
             </div>
             {%endif%}
           </div>
