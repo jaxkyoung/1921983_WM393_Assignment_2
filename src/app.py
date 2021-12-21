@@ -59,6 +59,7 @@ migrate = Migrate(app, db)
 class QABoard(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     boardName = db.Column(db.String(50), nullable = False)
+    boardDesc = db.Column(db.String(500), nullable = True)
     backImg = db.Column(db.String(100), nullable = True)
     questions = db.relationship('Question', backref='board')
 
@@ -167,9 +168,12 @@ def QABoard_post():
         f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         boardAccess.createBoard(db, QABoard, boardName, filename)
     if request.form['action'] == 'deleteBoardSubmit':
-        print(request.form['action'])
         boardId = request.form['boardId']
         boardAccess.deleteBoard(db, QABoard, boardId)
+    if request.form['action'] == 'editBoardSubmit':
+        pass
+        # boardId = request.form['boardId']
+        # boardName = request.form['boardName']
     return redirect(url_for('QABoardHome'))   
 
 
