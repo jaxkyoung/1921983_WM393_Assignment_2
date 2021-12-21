@@ -31,11 +31,19 @@ class boardAccess(object):
     def getBoards(QABoard):
         boards = QABoard.query.all()
         return boards
+    
+    def getBoard(QABoard, boardId):
+        board = QABoard.query.filter_by(id=boardId).first()
+        return board
 
     def editBoard(db, QABoard, boardId, boardName):
         board = QABoard.query.filter_by(id=boardId).first()
         board.boardName = boardName
         db.session.commit()
+
+    def getQuestions(Question, boardId):
+        questions = Question.query.filter_by(boardId=boardId).all()
+        return questions
 
     def addQuestion(db, Question, qTitle, qBody, boardId):
         now = getDateTime()
