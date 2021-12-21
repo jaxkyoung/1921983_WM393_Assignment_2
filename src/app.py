@@ -35,6 +35,8 @@ from flask_migrate import Migrate
 from dbUserAccess import userAccess
 from dbBoardAccess import boardAccess
 
+
+'''App initialisation'''
 # initialising flask app and path to database
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///WMGTSS.db'
@@ -43,12 +45,16 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 UPLOAD_FOLDER = join(dirname(realpath(__file__)), 'static/uploads')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+
+'''Log-in manager initialisation'''
 # initalising login manager
 login_manager = LoginManager()
 login_manager.init_app(app)
 # link to log in page
 login_manager.login_view = "logIn"
 
+
+'''DB handling and table creation'''
 # initialising database
 db = SQLAlchemy(app)
 # to handle adding or removing of columns of already created DB
@@ -114,15 +120,6 @@ class Comment(db.Model):
     posterId = db.Column(db.Integer, db.ForeignKey(User.id))
     questionId = db.Column(db.Integer, db.ForeignKey(Question.id))
 
-posts = [
-    { "title": "The answer for the Session 8 quiz is available on the Moodle", "name": "Young Park", "date": "20 Oct 2021", "count": 2 },
-    { "title": "The answers for the quiz today is available on the Moodle", "name": "Young Park", "date": "19 Oct 2021", "count": 3 },
-    { "title": "The Block 2 starts next week (18/10/21 - 21/10/21)", "name": "Alaa Sebae", "date": "12 Oct 2021", "count": 0 },
-    { "title": "Unable to access library online resources", "name": "Alaa Sebae", "date": "28 Sep 2021", "count": 1 },
-    { "title": "Task for finding functional and non-functional requirement available.", "name": "Young Park", "date": "17 Sep 2021", "count": 4 },
-    { "title": "Welcome to WM393 module", "name": "Young Park", "date": "05 Sep 2021", "count": 8 }
-]
-
 
 ''' Misc and Error Handling'''
 # user loader to remember previously visited users
@@ -183,6 +180,7 @@ def QABoard_abstract(boardId):
     questions = boardAccess.getQuestions(Question, boardId)
     print(questions)
     return render_template('boards/q_a_board_abstract.html', board=board, questions=questions)
+
 
 '''User Log-in, Log-out, and approval pages'''
 # log in page
@@ -298,6 +296,7 @@ def denyUser(email):
     userAccess.denyUser(db, PendingUser, email)
     flash(email + ' shall be denied access')
     return render_template('auth/approve_user.html', title='User Access Approvals', users=users)
+
 
 '''Flask App Initialisation'''
 # run app
