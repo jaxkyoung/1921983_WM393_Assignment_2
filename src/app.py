@@ -156,7 +156,7 @@ def home():
 @login_required
 def QABoardHome():
     boards = boardAccess.getBoards(QABoard)
-    return render_template('q_a_board_home.html', boards=boards)
+    return render_template('boards/q_a_board_home.html', boards=boards)
 
 # Q&A board CRUD button processing
 @app.route('/Q-A-Board', methods=['POST'])
@@ -182,14 +182,14 @@ def QABoard_abstract(boardId):
     board = boardAccess.getBoard(QABoard, boardId)
     questions = boardAccess.getQuestions(Question, boardId)
     print(questions)
-    return render_template('q_a_board_abstract.html', board=board, questions=questions)
+    return render_template('boards/q_a_board_abstract.html', board=board, questions=questions)
 
 '''User Log-in, Log-out, and approval pages'''
 # log in page
 @app.route('/log-in')
 def logIn():
     # render logIn template 
-    return render_template('log-in.html', authError = False)
+    return render_template('auth/log-in.html', authError = False)
 
 # function to handle login form POST request
 @app.route('/log-in', methods=['POST'])
@@ -199,7 +199,6 @@ def logIn_post():
     userPassword = request.form["userPassword"]
     # check if password and email match database
     check = userAccess.check_password(User, userEmail, userPassword)
-    print(check)
     # if check is true
     if check == True:
         # get user from db
@@ -211,7 +210,7 @@ def logIn_post():
         return 'You are logged in, you will be redirected in 3 seconds', {"Refresh": "3; url = /"}
     else:
         # if check is false, then user not logged in, flag error in password or email. 
-        return render_template('log-in.html', authError = True)
+        return render_template('auth/log-in.html', authError = True)
 
 # log out page
 @app.route('/logged-out/')
@@ -225,13 +224,13 @@ def logOut():
 @app.route('/forgotPasswordPage')
 def forgotPasswordPage():
     #flash('Hello')
-    return render_template('forgotPassword.html', authError = False)
+    return render_template('auth/forgotPassword.html', authError = False)
 
 # create account page
 @app.route('/create-account')
 def register():
     # render create account page
-    return render_template('register.html')
+    return render_template('auth/register.html')
 
 # create account POST method form processing
 @app.route('/create-account', methods=["POST"])
@@ -247,7 +246,7 @@ def register_post():
     # check user type and change to text
     if userType == "1":
         flash('Please select a user type')
-        return render_template('register.html')
+        return render_template('auth/register.html')
     if userType == "2":
         userType = "Tutor"
     elif userType == "3":
@@ -271,7 +270,7 @@ def register_post():
                 return 'You have created a standard account with email: ' + userEmail + ', you will be redirected in 3 seconds', {"Refresh": "3; url = /"}
     else:
         flash('Passwords do not match', 'error')
-        return render_template('reigster.html')
+        return render_template('auth/reigster.html')
 
 # user approval page
 @app.route('/approvals')
@@ -280,7 +279,7 @@ def register_post():
 def approvalsPage():
     users = userAccess.getPendingUserDetails(PendingUser)
     if current_user.userType == "Tutor":
-        return render_template('approve_user.html', title='User Access Approvals', users=users)
+        return render_template('auth/approve_user.html', title='User Access Approvals', users=users)
     else:
         return "Student's arent allowed on this page"
 
@@ -290,7 +289,7 @@ def approveUser(email):
     users = userAccess.getPendingUserDetails(PendingUser)
     userAccess.approveUser(db, PendingUser, User, email)
     flash(email + ' shall be approved')
-    return render_template('approve_user.html', title='User Access Approvals', users=users)
+    return render_template('auth/approve_user.html', title='User Access Approvals', users=users)
 
 # deny user processing
 @app.route('/approvals/deny/<email>/')
@@ -298,7 +297,7 @@ def denyUser(email):
     users = userAccess.getPendingUserDetails(PendingUser)
     userAccess.denyUser(db, PendingUser, email)
     flash(email + ' shall be denied access')
-    return render_template('approve_user.html', title='User Access Approvals', users=users)
+    return render_template('auth/approve_user.html', title='User Access Approvals', users=users)
 
 '''Flask App Initialisation'''
 # run app
