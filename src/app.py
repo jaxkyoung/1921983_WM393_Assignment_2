@@ -177,6 +177,12 @@ def QABoard_post():
         # boardName = request.form['boardName']
     return redirect(url_for('QABoardHome'))   
 
+@app.route('/Q-A-Board/id/<boardId>')
+def QABoard_individual(boardId):
+    board = boardAccess.getBoard(QABoard, boardId)
+    questions = boardAccess.getQuestions(Question, boardId)
+    print(questions)
+    return render_template('QABoardIndividual.html', board=board, questions=questions)
 
 '''User Log-in, Log-out, and approval pages'''
 # log in page
@@ -239,6 +245,9 @@ def createAccount_post():
     userPasswordRepeat = request.form["userPasswordRepeat"]
 
     # check user type and change to text
+    if userType == "1":
+        flash('Please select a user type')
+        return render_template('createAccount.html')
     if userType == "2":
         userType = "Tutor"
     elif userType == "3":
@@ -260,6 +269,9 @@ def createAccount_post():
             elif userType == "Student":
                 userAccess.addUser(db, User, userEmail, userPassword, userFirstNameInput, userSurnameInput, userType)
                 return 'You have created a standard account with email: ' + userEmail + ', you will be redirected in 3 seconds', {"Refresh": "3; url = /"}
+    else:
+        flash('Passwords do not match', 'error')
+        return render_template('createAccount.html')
 
 # user approval page
 @app.route('/approvals')
