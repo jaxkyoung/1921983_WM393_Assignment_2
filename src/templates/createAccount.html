@@ -1,126 +1,126 @@
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WMGTSS: Create Account</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WMGTSS: Create Account</title>
 
-    <!-- Bootstrap 4 -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <!-- my css -->
+  <!-- my css -->
 </head>
 <body style="max-height: 75px; padding-top: 1rem;">
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="#">
-            <image src="{{url_for('static',filename = 'images/wmglogo.png')}}" width = "60" height = "50" class="d-inline-block align-middle" href="{{ url_for('home') }}" alt="">
-            WMG Teaching Support System
-        </a>
-        <div class="navbar" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('home') }}">Home</a>
-            </li>
-            <li class="nav-item dropdown">
-              {% if current_user.is_authenticated %}
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  {{current_user.fName}}'s Profile
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">View Profile</a>
-                  <a class="dropdown-item" href="#">Settings</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="{{url_for('logOut')}}">Log Out</a>
-                </div>
-              {%else%}
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Profile
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Settings</a>                  
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="{{url_for('createAccountPage')}}">Create Account</a>
-                  <a class="dropdown-item" href="{{url_for('logInReq')}}">Log In</a>
-                </div>
-              {%endif%}                  
-            </li>
-          </ul>
-        </div>      
-    </nav>
-    <section class="vh-100">
-      <div class="container py-5 h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-          <div class="col col-m-10">
-            <div class="card" style="border-radius: 1rem;">
-              <div class="row g-0">
-                <div class="col-md-6 col-lg-5 d-none d-md-block">
-                  <img
-                    src="{{url_for('static',filename = 'images/DACCrop.png')}}"
-                    alt="login form"
-                    class="img-fluid" style="border-radius: 1rem 0 0 1rem;"
-                  />
-                </div>
-                <div class="col-md-6 col-lg-7 d-flex align-items-center">
-                  <div class="card-body p-4 p-lg-5 text-black">
-    
-                    <form action="{{ url_for('createAccount_post') }}" method="POST">
-    
-                      <div class="d-flex align-items-center mb-3 pb-1">
-                        <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
-                        <span class="h1 fw-bold mb-0">WMG TSS</span>
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="#">
+        <image src="{{url_for('static',filename = 'images/wmglogo.png')}}" width = "60" height = "50" class="d-inline-block align-middle" href="{{ url_for('home') }}" alt="">
+        WMG Teaching Support System
+      </a>
+      <div class="navbar" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+          </li>
+          <li class="nav-item dropdown">
+            {% if current_user.is_authenticated %}
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{current_user.fName}}'s Profile
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">View Profile</a>
+                <a class="dropdown-item" href="#">Settings</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{{url_for('logOut')}}">Log Out</a>
+              </div>
+            {%else%}
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Profile
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Settings</a>                  
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{{url_for('createAccountPage')}}">Create Account</a>
+                <a class="dropdown-item" href="{{url_for('logInReq')}}">Log In</a>
+              </div>
+            {%endif%}                  
+          </li>
+        </ul>
+      </div>      
+  </nav>
+  <section class="vh-100">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-m-10">
+          <div class="card" style="border-radius: 1rem;">
+            <div class="row g-0">
+              <div class="col-md-6 col-lg-5 d-none d-md-block">
+                <img
+                  src="{{url_for('static',filename = 'images/DACCrop.png')}}"
+                  alt="login form"
+                  class="img-fluid" style="border-radius: 1rem 0 0 1rem;"
+                />
+              </div>
+              <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                <div class="card-body p-4 p-lg-5 text-black">
+  
+                  <form action="{{ url_for('createAccount_post') }}" method="POST">
+  
+                    <div class="d-flex align-items-center mb-3 pb-1">
+                      <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
+                      <span class="h1 fw-bold mb-0">WMG TSS</span>
+                    </div>
+                    <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Create your account</h5>
+                    <div class="row">
+                      <div class="form-outline col-md-6 mb-4">
+                        <input name="userFirstNameInput" type="text" id="form2Example17" class="form-control form-control-lg" required/>
+                        <label class="form-label" for="form2Example17">First Name</label>
                       </div>
-                      <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Create your account</h5>
-                      <div class="row">
-                        <div class="form-outline col-md-6 mb-4">
-                          <input name="userFirstNameInput" type="text" id="form2Example17" class="form-control form-control-lg" required/>
-                          <label class="form-label" for="form2Example17">First Name</label>
-                        </div>
-                        <div class="form-outline col-md-6 mb-4">
-                          <input name="userSurnameInput" type="text" id="form2Example17" class="form-control form-control-lg" required/>
-                          <label class="form-label" for="form2Example17">Surname</label>
-                        </div>
+                      <div class="form-outline col-md-6 mb-4">
+                        <input name="userSurnameInput" type="text" id="form2Example17" class="form-control form-control-lg" required/>
+                        <label class="form-label" for="form2Example17">Surname</label>
                       </div>
-                      <div class="form-outline mb-4">
-                        <input name="userEmail" type="email" id="form2Example17" class="form-control form-control-lg" required/>
-                        <label class="form-label" for="form2Example17">Email Address</label>
+                    </div>
+                    <div class="form-outline mb-4">
+                      <input name="userEmail" type="email" id="form2Example17" class="form-control form-control-lg" required/>
+                      <label class="form-label" for="form2Example17">Email Address</label>
+                    </div>
+                    <div class="row">
+                      <div class="form-outline col-md-6 mb-4">
+                        <input name="userPassword" type="password" id="form2Example27" class="form-control form-control-lg" required/>
+                        <label class="form-label" for="form2Example27">Password</label>
                       </div>
-                      <div class="row">
-                        <div class="form-outline col-md-6 mb-4">
-                          <input name="userPassword" type="password" id="form2Example27" class="form-control form-control-lg" required/>
-                          <label class="form-label" for="form2Example27">Password</label>
-                        </div>
-                        <div class="form-outline col-md-6 mb-4">
-                          <input name="userPasswordRepeat" type="password" id="form2Example27" class="form-control form-control-lg" required/>
-                          <label class="form-label" for="form2Example27">Repeat Password</label>
-                        </div>
+                      <div class="form-outline col-md-6 mb-4">
+                        <input name="userPasswordRepeat" type="password" id="form2Example27" class="form-control form-control-lg" required/>
+                        <label class="form-label" for="form2Example27">Repeat Password</label>
                       </div>
-                      <div class="mb-4">
-                        <select class="select" name="userType">
-                          <option value="1">Please Select User Type</option>
-                          <option value="2">Tutor</option>
-                          <option value="3">Teaching Assistant</option>
-                          <option value="4">Student</option>
-                        </select>
-                        <small id="createHelp" class="form-text text-muted">
-                          If you register as a 'Tutor' or 'Teaching Assistant' your account must be approved by an admin
-                        </small>
-                      </div>
-                      <div class="pt-1 mb-4">
-                        <button class="btn btn-dark btn-lg btn-block" type="submit">Register</button>
-                      </div>
-                      <p class="mb-5 pb-lg-2" style="color: #393f81;">Already have an account? <a href="{{url_for('logInReq')}}" style="color: #393f81;">Log-in here</a></p>
-                    </form>
-                  </div>
+                    </div>
+                    <div class="mb-4">
+                      <select class="select" name="userType">
+                        <option value="1">Please Select User Type</option>
+                        <option value="2">Tutor</option>
+                        <option value="3">Teaching Assistant</option>
+                        <option value="4">Student</option>
+                      </select>
+                      <small id="createHelp" class="form-text text-muted">
+                        If you register as a 'Tutor' or 'Teaching Assistant' your account must be approved by an admin
+                      </small>
+                    </div>
+                    <div class="pt-1 mb-4">
+                      <button class="btn btn-dark btn-lg btn-block" type="submit">Register</button>
+                    </div>
+                    <p class="mb-5 pb-lg-2" style="color: #393f81;">Already have an account? <a href="{{url_for('logInReq')}}" style="color: #393f81;">Log-in here</a></p>
+                  </form>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 </body>
 </html>
 
