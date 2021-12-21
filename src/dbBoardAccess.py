@@ -1,6 +1,11 @@
+'''
+This file allows app.py to communicate with the SQLite DB through defined functions,
+restricting user access and keeping data secure. It specifically accesses boards, questions, answers, and comments
+author: u1921983
+version: 1.0
+'''
+
 # encyption library
-import bcrypt
-from getpass import getpass
 from flask_login import current_user
 from datetime import datetime
 

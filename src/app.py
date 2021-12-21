@@ -1,3 +1,11 @@
+'''
+app.py contains all code that generates URLs for the flask web app, it depends on two supporting I/O handling python files:
+    - dbBoardAccess.py (to access board, question, answer, and comment details)
+    - dbUserAccess.py (to access user information for log in/out)
+author: u1921983
+version: 1.0
+'''
+
 '''Library imports'''
 # file saving and path locating libraries
 import os

@@ -1,3 +1,10 @@
+'''
+This file allows app.py to communicate securely with the SQLite DB, 
+it specifically accesses the user table.
+author: u1921983
+version: 1.0
+'''
+
 # encyption library
 import bcrypt
 from getpass import getpass
@@ -113,7 +120,3 @@ class userAccess(object):
                 db.session.delete(user)
                 db.session.commit()
 
-#userAccess.addPendingUser("john.smith@warwick.ac.uk", "example", "John", "Smith", "student")
-# users = PendingUser.query.all()
-# for user in users:
-#     print(user.email)
