@@ -102,13 +102,18 @@
             <form method="POST" action="{{ url_for('QABoard_post') }}" enctype="multipart/form-data">
               <div class="modal-body">
                 <div class="form-group">
-                  <label for="InputEmail">Board Name</label>
+                  <label for="InputName">Board Name</label>
                   <input name = "boardName" type="text" class="form-control" id="InputBoard" aria-describedby="emailHelp" placeholder="Enter board name" required>
                   <small id="boardHelp" class="form-text text-muted">Each board must have a name</small>
                 </div>
                 <div class="form-group">
-                  <label for="InputEmail">Image Path</label>
-                  <input name = "imgPath" type="file" class="form-control" id="InputBoard" aria-describedby="emailHelp" placeholder="Enter board name" required>
+                  <label for="InputDesc">Board Description</label>
+                  <input name = "boardDesc" type="text" class="form-control" id="InputBoard" aria-describedby="emailHelp" placeholder="Enter board desciption" required>
+                  <small id="boardHelp" class="form-text text-muted">Each board can have a desciption</small>
+                </div>
+                <div class="form-group">
+                  <label for="InputPath">Image Path</label>
+                  <input name = "imgPath" type="file" class="form-control" id="InputBoard" aria-describedby="emailHelp" placeholder="Choose an image" required>
                   <small id="boardHelp" class="form-text text-muted">Each board must have a background image</small>
                 </div>
               </div>

@@ -163,10 +163,11 @@ def QABoardHome():
 def QABoard_post():
     if request.form['action'] == 'createBoardSubmit':
         boardName = request.form['boardName']
+        boardDesc = request.form['boardDesc']
         f = request.files['imgPath']
         filename = secure_filename(f.filename)
         f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        boardAccess.createBoard(db, QABoard, boardName, filename)
+        boardAccess.createBoard(db, QABoard, boardName, boardDesc, filename)
     if request.form['action'] == 'deleteBoardSubmit':
         boardId = request.form['boardId']
         boardAccess.deleteBoard(db, QABoard, boardId)

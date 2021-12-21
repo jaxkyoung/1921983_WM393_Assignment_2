@@ -14,9 +14,10 @@ def getDateTime():
 '''Class to create, read, update, verify, and delete user profiles'''
 class boardAccess(object):
 
-    def createBoard(db, QABoard, boardName, imgPath):
+    def createBoard(db, QABoard, boardName, boardDesc, imgPath):
         new_board = QABoard(
             boardName = boardName,
+            boardDesc = boardDesc,
             backImg = imgPath
         )
         db.session.add(new_board)
