@@ -133,11 +133,20 @@
                 </button>
             </div>
             <div class="modal-body">
-              ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+              <form action="{{ url_for('QABoard_post') }}" method="POST">
+                <div class="modal-body">
+                  <select class="select" name="boardId">
+                    <option value="0">Select Board Name</option>
+                    {% for board in boards %}
+                    <option value="{{ board.id }}">{{ board.boardName }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                  <button value='editBoardSubmit' name='action' type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+              </form>
             </div>
             </div>
         </div>
@@ -185,7 +194,7 @@
                   <img class="card-img-top" src="{{url_for('static',filename = 'uploads/' + board.backImg)}}"  alt="Card image cap">
                   <div class="card-body">
                     <h5 class="card-title">{{board.boardName}}</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <p class="card-text">{{ board.boardDesc }}</p>
                     <a href="#" class="btn btn-primary">Go to board</a>
                   </div>
                 </div>
