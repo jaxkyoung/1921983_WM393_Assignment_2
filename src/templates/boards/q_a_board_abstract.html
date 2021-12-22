@@ -14,7 +14,7 @@
     <!-- my css -->
     <link rel="stylesheet" href="{{ url_for('static', filename = 'QABoard.css') }}">
 </head>
-<body style="min-height: 100rem; padding-top: 5rem;">
+<body style="min-height: 150rem; padding-top: 5rem;">
   <div class="bg">
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <a class="navbar-brand" href="#">
@@ -44,8 +44,8 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <a class="dropdown-item" href="#">Settings</a>                  
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="{{url_for('createAccountPage')}}">Create Account</a>
-                  <a class="dropdown-item" href="{{url_for('logInReq')}}">Log In</a>
+                  <a class="dropdown-item" href="{{url_for('register')}}">Create Account</a>
+                  <a class="dropdown-item" href="{{url_for('logIn')}}">Log In</a>
                 </div>
               {%endif%}                     
             </li>
@@ -60,7 +60,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Q&A</a>
+                <a class="nav-link" href="{{ url_for('QABoardHome') }}">Q&A</a>
             </li>
             <li class="nav-item">
               <a class="nav-link disabled" href="#">Lecture</a>
@@ -105,17 +105,17 @@
                     <div class="modal-body">
                       <div class="form-group">
                         <label for="InputName">Question Title</label>
-                        <input name = "boardName" type="text" class="form-control" placeholder="Enter board name" required>
+                        <input name = "qTitle" type="text" class="form-control" placeholder="Enter question name" required>
                         <small id="boardHelp" class="form-text text-muted">Each question must have a title</small>
                       </div>
                       <div class="form-group">
                         <label for="InputDesc">Question Body</label>
-                        <textarea name="boardDesc" class="form-control" rows="3" placeholder="Enter board desciption" required></textarea>
+                        <textarea name="qBody" class="form-control" rows="3" placeholder="Enter question desciption" required></textarea>
                         <small id="boardHelp" class="form-text text-muted">Each question can have a body</small>
                       </div>
                       <div class="form-group">
                         <label for="InputPath">Supporting Docs</label>
-                        <input name = "imgPath" type="file" class="form-control" id="InputBoard" aria-describedby="emailHelp" placeholder="Choose a file">
+                        <input style="padding-bottom: 2.2rem;" name = "qDocs" type="file" class="form-control" placeholder="Choose a file">
                         <small id="boardHelp" class="form-text text-muted">Each question can have supporting documents</small>
                       </div>
                     </div>
@@ -164,13 +164,11 @@
             {% if questions is defined and questions|length > 0 %}
             {% for question in questions %}
             <div class="card-body">
-              <div class = "col-sm-4">
-                <div class="card" style="width: 18rem;">
-                  <div class="card-body">
-                    <h5 class="card-title">{{ question.qTitle }}</h5>
-                    <p class="card-text">{{ question.qBody }}</p>
-                    <a href="#" class="btn btn-primary">Go to question</a>
-                  </div>
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">{{ question.qTitle }}</h5>
+                  <p class="card-text">{{ question.qBody }}</p>
+                  <a href="#" class="btn btn-primary">Go to question</a>
                 </div>
               </div>
             </div>

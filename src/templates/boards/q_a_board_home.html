@@ -14,7 +14,7 @@
     <!-- my css -->
     <link rel="stylesheet" href="{{ url_for('static', filename = 'QABoard.css') }}">
 </head>
-<body style="min-height: 100rem; padding-top: 5rem;">
+<body style="min-height: 150rem; padding-top: 5rem;">
   <div class="bg">
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <a class="navbar-brand" href="#">
@@ -104,17 +104,17 @@
               <div class="modal-body">
                 <div class="form-group">
                   <label for="InputName">Board Name</label>
-                  <input name = "boardName" type="text" class="form-control" id="InputBoard" aria-describedby="emailHelp" placeholder="Enter board name" required>
+                  <input name = "boardName" type="text" class="form-control" placeholder="Enter board name" required>
                   <small id="boardHelp" class="form-text text-muted">Each board must have a name</small>
                 </div>
                 <div class="form-group">
                   <label for="InputDesc">Board Description</label>
-                  <input name = "boardDesc" type="text" class="form-control" id="InputBoard" aria-describedby="emailHelp" placeholder="Enter board desciption" required>
+                  <input name = "boardDesc" type="text" class="form-control" placeholder="Enter board desciption" required>
                   <small id="boardHelp" class="form-text text-muted">Each board can have a desciption</small>
                 </div>
                 <div class="form-group">
                   <label for="InputPath">Image Path</label>
-                  <input name = "imgPath" type="file" class="form-control" id="InputBoard" aria-describedby="emailHelp" placeholder="Choose an image" required>
+                  <input style="padding-bottom: 2.2rem;" name = "imgPath" type="file" class="form-control" placeholder="Choose an image" required>
                   <small id="boardHelp" class="form-text text-muted">Each board must have a background image</small>
                 </div>
               </div>
