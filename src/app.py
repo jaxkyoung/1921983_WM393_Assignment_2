@@ -189,6 +189,9 @@ def QABoard_abstract(boardId):
     print(questions)
     return render_template('boards/q_a_board_abstract.html', board=board, questions=questions)
 
+@app.route('/Q-A-Board/id/<boardId>', methods=['POST'])
+def question_post(boardId):
+    return 'create question'
 
 '''User Log-in, Log-out, and approval pages'''
 # log in page
