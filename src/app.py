@@ -183,15 +183,25 @@ def QABoard_post():
     return redirect(url_for('QABoardHome'))   
 
 @app.route('/Q-A-Board/id/<boardId>')
+@login_required
 def QABoard_abstract(boardId):
     board = boardAccess.getBoard(QABoard, boardId)
     questions = boardAccess.getQuestions(Question, boardId)
-    print(questions)
     return render_template('boards/q_a_board_abstract.html', board=board, questions=questions)
 
+
+'''Question creation, deletion'''
+# Question CRUD processing
 @app.route('/Q-A-Board/id/<boardId>', methods=['POST'])
+@login_required
 def question_post(boardId):
-    return 'create question'
+    board = boardAccess.getBoard(QABoard, boardId)
+    questions = boardAccess.getQuestions(Question, boardId)
+    qTitle = request.form['qTitle']
+    qBody = request.form['qBody']
+    boardAccess.addQuestion(db, Question, qTitle, qBody, boardId)
+    return render_template('boards/q_a_board_abstract.html', board=board, questions=questions)
+
 
 '''User Log-in, Log-out, and approval pages'''
 # log in page
@@ -223,6 +233,7 @@ def logIn_post():
 
 # log out page
 @app.route('/logged-out/')
+@login_required
 def logOut():
     # flask function to logout user
     logout_user()
