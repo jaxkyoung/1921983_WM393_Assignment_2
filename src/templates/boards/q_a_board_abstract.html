@@ -90,9 +90,9 @@
           <div class="container text-center" style="padding: 0rem;" id="questionCreationButtons">
             <div class="col-md-12 text-center">
               <!-- Button trigger modal -->
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createBoardModal">Ask Question</button>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#askQuestionModal">Ask Question</button>
               <!-- Modal -->
-              <div class="modal fade" id="createBoardModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal fade" id="askQuestionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">
                   <div class="modal-content">
                   <div class="modal-header">
@@ -101,27 +101,27 @@
                       <span aria-hidden="true">&times;</span>
                       </button>
                   </div>
-                  <form method="POST" action="{{ url_for('QABoard_post') }}" enctype="multipart/form-data">
+                  <form method="POST" action="/Q-A-Board/id/{{ board.id }}" enctype="multipart/form-data">
                     <div class="modal-body">
                       <div class="form-group">
-                        <label for="InputName">Board Name</label>
-                        <input name = "boardName" type="text" class="form-control" id="InputBoard" aria-describedby="emailHelp" placeholder="Enter board name" required>
-                        <small id="boardHelp" class="form-text text-muted">Each board must have a name</small>
+                        <label for="InputName">Question Title</label>
+                        <input name = "boardName" type="text" class="form-control" placeholder="Enter board name" required>
+                        <small id="boardHelp" class="form-text text-muted">Each question must have a title</small>
                       </div>
                       <div class="form-group">
-                        <label for="InputDesc">Board Description</label>
-                        <input name = "boardDesc" type="text" class="form-control" id="InputBoard" aria-describedby="emailHelp" placeholder="Enter board desciption" required>
-                        <small id="boardHelp" class="form-text text-muted">Each board can have a desciption</small>
+                        <label for="InputDesc">Question Body</label>
+                        <textarea name="boardDesc" class="form-control" rows="3" placeholder="Enter board desciption" required></textarea>
+                        <small id="boardHelp" class="form-text text-muted">Each question can have a body</small>
                       </div>
                       <div class="form-group">
-                        <label for="InputPath">Image Path</label>
-                        <input name = "imgPath" type="file" class="form-control" id="InputBoard" aria-describedby="emailHelp" placeholder="Choose an image" required>
-                        <small id="boardHelp" class="form-text text-muted">Each board must have a background image</small>
+                        <label for="InputPath">Supporting Docs</label>
+                        <input name = "imgPath" type="file" class="form-control" id="InputBoard" aria-describedby="emailHelp" placeholder="Choose a file">
+                        <small id="boardHelp" class="form-text text-muted">Each question can have supporting documents</small>
                       </div>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                      <button value = 'createBoardSubmit' name='action' type="submit" class="btn btn-primary">Create board</button>
+                      <button value = 'askQuestionSubmit' name='action' type="submit" class="btn btn-primary">Ask Question</button>
                     </div>
                   </form>
                   </div>
