@@ -198,11 +198,13 @@ def QABoard_abs_post(boardId):
         qTitle = request.form['qTitle']
         qBody = request.form['qBody']
         boardAccess.addQuestion(db, Question, qTitle, qBody, boardId)
-        board = boardAccess.getBoard(QABoard, boardId)
-        questions = boardAccess.getQuestions(Question, boardId)
-        return render_template('boards/q_a_board_abstract.html', board=board, questions=questions)
-    if request.form['action'] == 'addAnswerSubmit':
-        pass
+    elif request.form['action'] == 'addAnswerSubmit':
+        aBody = request.form['aBody']
+        questionId = request.form['questionId']
+        boardAccess.addAnswer(db, Answer, aBody, questionId)
+    board = boardAccess.getBoard(QABoard, boardId)
+    questions = boardAccess.getQuestions(Question, boardId)
+    return render_template('boards/q_a_board_abstract.html', board=board, questions=questions)
 
 
 '''User Log-in, Log-out, and approval pages'''
