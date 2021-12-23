@@ -195,12 +195,12 @@ def QABoard_abstract(boardId):
 @login_required
 def QABoard_abs_post(boardId):
     if request.form['action'] == 'askQuestionSubmit':
-        board = boardAccess.getBoard(QABoard, boardId)
-        questions = boardAccess.getQuestions(Question, boardId)
         qTitle = request.form['qTitle']
         qBody = request.form['qBody']
         boardAccess.addQuestion(db, Question, qTitle, qBody, boardId)
-        return redirect(url_for('QABoard_abstract(' + str(boardId) + ')'))
+        board = boardAccess.getBoard(QABoard, boardId)
+        questions = boardAccess.getQuestions(Question, boardId)
+        return render_template('boards/q_a_board_abstract.html', board=board, questions=questions)
     if request.form['action'] == 'addAnswerSubmit':
         pass
 
