@@ -200,7 +200,7 @@ def QABoard_abs_post(boardId):
         qTitle = request.form['qTitle']
         qBody = request.form['qBody']
         boardAccess.addQuestion(db, Question, qTitle, qBody, boardId)
-        return redirect(url_for('QABoard_abstract'))
+        return redirect(url_for('QABoard_abstract(' + str(boardId) + ')'))
     if request.form['action'] == 'addAnswerSubmit':
         pass
 
