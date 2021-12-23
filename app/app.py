@@ -40,8 +40,8 @@ from sqlalchemy.orm import backref
 from flask_migrate import Migrate
 
 # class containing methods to access and write users to database
-from app.dbUserAccess import userAccess
-from app.dbBoardAccess import boardAccess
+from dbUserAccess import userAccess
+from dbBoardAccess import boardAccess
 
 
 '''App initialisation'''
@@ -200,7 +200,7 @@ def QABoard_abs_post(boardId):
         qTitle = request.form['qTitle']
         qBody = request.form['qBody']
         boardAccess.addQuestion(db, Question, qTitle, qBody, boardId)
-        return redirect(url_for('QABoard_abstract'))
+        return redirect(url_for('QABoard_asbtract'))
     if request.form['action'] == 'addAnswerSubmit':
         pass
 
