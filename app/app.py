@@ -53,11 +53,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 UPLOAD_FOLDER = join(dirname(realpath(__file__)), 'static/uploads')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-import logging
-
-app.logger.addHandler(logging.StreamHandler(os.system.stdout))
-app.logger.setLevel(logging.ERROR)
-
 '''Log-in manager initialisation'''
 # initalising login manager
 login_manager = LoginManager()
