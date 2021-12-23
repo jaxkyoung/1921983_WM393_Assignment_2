@@ -40,8 +40,8 @@ from sqlalchemy.orm import backref
 from flask_migrate import Migrate
 
 # class containing methods to access and write users to database
-from dbUserAccess import userAccess
-from dbBoardAccess import boardAccess
+from app.dbUserAccess import userAccess
+from app.dbBoardAccess import boardAccess
 
 
 '''App initialisation'''
@@ -324,6 +324,6 @@ def denyUser(email):
 
 '''Flask App Initialisation'''
 # run app
-if __name__ == '__main__':
-    app.secret_key = ('super secret key')
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     app.secret_key = ('super secret key')
+#     app.run(debug=True)
