@@ -53,7 +53,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 UPLOAD_FOLDER = join(dirname(realpath(__file__)), 'static/uploads')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-
 '''Log-in manager initialisation'''
 # initalising login manager
 login_manager = LoginManager()
@@ -190,17 +189,20 @@ def QABoard_abstract(boardId):
     return render_template('boards/q_a_board_abstract.html', board=board, questions=questions)
 
 
-'''Question creation, deletion'''
+'''Question, answer, and comment creation, deletion'''
 # Question CRUD processing
 @app.route('/Q-A-Board/id/<boardId>', methods=['POST'])
 @login_required
-def question_post(boardId):
-    board = boardAccess.getBoard(QABoard, boardId)
-    questions = boardAccess.getQuestions(Question, boardId)
-    qTitle = request.form['qTitle']
-    qBody = request.form['qBody']
-    boardAccess.addQuestion(db, Question, qTitle, qBody, boardId)
-    return render_template('boards/q_a_board_abstract.html', board=board, questions=questions)
+def QABoard_abs_post(boardId):
+    if request.form['action'] == 'askQuestionSubmit':
+        board = boardAccess.getBoard(QABoard, boardId)
+        questions = boardAccess.getQuestions(Question, boardId)
+        qTitle = request.form['qTitle']
+        qBody = request.form['qBody']
+        boardAccess.addQuestion(db, Question, qTitle, qBody, boardId)
+        return render_template('boards/q_a_board_abstract.html', board=board, questions=questions)
+    if request.form['action'] == 'addAnswerSubmit':
+        pass
 
 
 '''User Log-in, Log-out, and approval pages'''
