@@ -186,7 +186,8 @@ def QABoard_post():
 def QABoard_abstract(boardId):
     board = boardAccess.getBoard(QABoard, boardId)
     questions = boardAccess.getQuestions(Question, boardId)
-    return render_template('boards/q_a_board_abstract.html', board=board, questions=questions)
+    answers = boardAccess.getAnswers(Answer, boardId)
+    return render_template('boards/q_a_board_abstract.html', board=board, questions=questions, answers=answers)
 
 
 '''Question, answer, and comment creation, deletion'''
@@ -204,7 +205,8 @@ def QABoard_abs_post(boardId):
         boardAccess.addAnswer(db, Answer, aBody, questionId)
     board = boardAccess.getBoard(QABoard, boardId)
     questions = boardAccess.getQuestions(Question, boardId)
-    return render_template('boards/q_a_board_abstract.html', board=board, questions=questions)
+    answers = boardAccess.getAnswers(Answer, boardId)
+    return render_template('boards/q_a_board_abstract.html', board=board, questions=questions, answers=answers)
 
 
 '''User Log-in, Log-out, and approval pages'''
