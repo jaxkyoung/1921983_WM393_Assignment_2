@@ -1,95 +1,77 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WMGTSS: User Approval</title>
+{% extends "auth/auth_base.html" %}
 
-    <!-- Bootstrap 4 -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% block title %}
+WMGTSS: Home
+{% endblock %}
 
-    <!-- my css -->
-    <link rel="stylesheet" href="{{ url_for('static', filename = 'userApproval.css') }}">
-</head>
-<body style="min-height: 75rem; padding-top: 5rem;">
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="#">
-            <image src="{{url_for('static',filename = 'images/wmglogo.png')}}" width = "60" height = "50" class="d-inline-block align-middle" href="{{ url_for('goHome') }}" alt="">
-            WMG Teaching Support System
-        </a>
-        <div class="navbar" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="{{url_for('home')}}">Home</a>
-            </li>
-            <li class="nav-item dropdown">
-              {% if current_user.is_authenticated %}
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  {{current_user.fName}}'s Profile
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">View Profile</a>
-                  <a class="dropdown-item" href="#">Settings</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="{{url_for('logOut')}}">Log Out</a>
-                </div>
-              {%else%}
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Profile
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Settings</a>                  
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="{{url_for('createAccountPage')}}">Create Account</a>
-                  <a class="dropdown-item" href="{{url_for('logInReq')}}">Log In</a>
-                </div>
-              {%endif%}               
-            </li>
-          </ul>
-        </div>      
-    </nav>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <div class="container" style="padding-top: 5rem">
-      {% for message in messages %}
-        <div class="alert alert-success alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-        {{message}}
-        </div>
-      {% endfor %}
-    </div>
-    {% endif %}
-    {% endwith %}   
-    {% block body %}{% endblock %}
-    <section class="container" style="padding-top: 1rem;">
-        <div class="card">
-            <div class="card-header text-dark bg-light mb-3">{{ title }}</div>
-            <div class="card-body">
-                <table class="table table-striped" id="userApprovalTable">
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>User Type</th>
-                        <th>Approve/Deny</th>
-                    </tr>
-                    {% for user in users %}
-                    <tr>
-                        <td>{{ user.fName }} {{ user.sName }}</td>
-                        <td>{{ user.email }}</td>
-                        <td>{{ user.userType }}</td>
-                        <td>
-                          <a class="btn btn-primary" href="/approvals/approve/{{ user.email }}" role="button">Approve</a>
-                          <a class="btn btn-danger" style="padding-left: 1.5rem; padding-right: 1.5rem;" href="/approvals/deny/{{ user.email }}" role="button">Deny</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </table>
-            </div>      
-        </div>
-    </section>
-</body>
-</html>
+{% block css %}
+{% endblock %}
+
+{% block homeLink %}
+<a class="nav-link" href="{{ url_for('home') }}">Home</a>
+{% endblock %}
+
+{% block boardLinks %}
+<li class="nav-item">
+	<a class="nav-link" href="{{ url_for('QABoardHome') }}">Q&A</a>
+</li>
+<li class="nav-item">
+	<a class="nav-link disabled" href="#">Lecture</a>
+</li>
+<li class="nav-item">
+	<a class="nav-link disabled" href="#">Resource</a>
+</li>
+<li class="nav-item">
+	<a class="nav-link disabled" href="#">Notice</a>
+</li>
+<li class="nav-item">
+	<a class="nav-link disabled" href="#">Calendar</a>
+</li>
+<li class="nav-item">
+	<a class="nav-link disabled" href="#">Quiz</a>
+</li>
+{% endblock %}
+
+{% block body %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div style="padding-top: 5rem;">
+<div class="container">
+	{% for message in messages %}
+	<div class="alert alert-success alert-dismissible" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+	{{message}}
+	</div>
+	{% endfor %}
+</div>
+{% endif %}
+{% endwith %}   
+<section class="container">
+	<div class="card">
+		<div class="card-header text-dark bg-light mb-3">{{ title }}</div>
+		<div class="card-body">
+			<table class="table table-striped" id="userApprovalTable">
+				<tr>
+					<th>Name</th>
+					<th>Email</th>
+					<th>User Type</th>
+					<th>Approve/Deny</th>
+				</tr>
+				{% for user in users %}
+				<tr>
+					<td>{{ user.fName }} {{ user.sName }}</td>
+					<td>{{ user.email }}</td>
+					<td>{{ user.userType }}</td>
+					<td>
+						<a class="btn btn-primary" href="/approvals/approve/{{ user.email }}" role="button">Approve</a>
+						<a class="btn btn-danger" style="padding-left: 1.5rem; padding-right: 1.5rem;" href="/approvals/deny/{{ user.email }}" role="button">Deny</a>
+					</td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>      
+	</div>
+</section>
+</div>
+{% endblock %}
 
