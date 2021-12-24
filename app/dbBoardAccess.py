@@ -191,3 +191,13 @@ class boardAccess(object):
         db.session.add(new_answer)
         # commit DB
         db.session.commit()
+    
+    def getAnswers(Answer, boardId):
+        """
+
+        Args:
+            Answer ([type]): [description]
+        """
+        #answers = Answer.query.filter_by(Answer.question.has(boardId==boardId))
+        answers = Answer.query.join(Answer.question, aliased=True).filter_by(boardId=boardId)
+        return answers
