@@ -86,7 +86,7 @@
     </nav>
     <div class="container" style="padding-top: 1rem;">
       <div class="card">
-        <div class="card-header text-dark bg-light mb-3">{{ board.boardName }}</div>
+        <div class="card-header text-white bg-dark mb-3">{{ board.boardName }}</div>
           <div class="container text-center" style="padding: 0rem;" id="questionCreationButtons">
             <div class="col-md-12 text-center">
               <!-- Button trigger modal -->
@@ -166,12 +166,25 @@
             {% if questions is defined and questions|length > 0 %}
             {% for question in questions %}
             <div class="card-body">
-              <div class="card">
+              <div class="card border-dark" style="border">
                 <div class="card-body">
                   <h5 class="card-title">{{ question.qTitle }}</h5>
                   <p class="card-text">{{ question.qBody }}</p>
                   <!-- Button trigger modal -->
                   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addAnswerModal">Add Answer</button>
+                  {% for answer in answers %}
+                  {% if answer.questionId == question.id %}
+                  <div class="row">
+                    <div class="card-body">
+                      <div class="card bg-light" style="padding: 1rem;">
+                        <p class="card-text">{{ answer.aBody }}</p>
+                        <small class="form-text text-muted">Posted by: {{ answer.author.email }} </small>
+                        <small class="form-text text-muted">Posted on: {{ answer.postDate }} </small>
+                      </div>
+                    </div>
+                  </div>
+                  {% endif %}
+                  {% endfor %}
                   <!-- Modal -->
                   <div class="modal fade" id="addAnswerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
@@ -185,6 +198,7 @@
                       <div class="modal-body">
                         <form action="/Q-A-Board/id/{{ board.id }}" method="POST">
                           <div class="modal-body">
+                            <input type="hidden" name="questionId" value={{ question.id }}>
                             <div class="form-group">
                               <label for="AnswerBody">Your Answer</label>
                               <textarea name="aBody" class="form-control" rows="3" placeholder="Enter your answer" required></textarea>
@@ -192,8 +206,10 @@
                             </div>
                           </div>
                           <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                            <button value='addAnswerSubmit' name='action' type="submit" class="btn btn-primary">Answer Question</button>
+                            <div>
+                              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                              <button value='addAnswerSubmit' name='action' type="submit" class="btn btn-primary">Answer Question</button>
+                            </div>
                           </div>
                         </form>
                       </div>
