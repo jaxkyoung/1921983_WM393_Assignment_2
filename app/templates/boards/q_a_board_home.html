@@ -141,24 +141,24 @@ WMGTSS: Home
 {%endif%}
 <div class="container" style="padding-top: 1rem;">
 	<div class="card">
-		<div class="card-header text-dark bg-light mb-3">
+		<div class="card-header text-white bg-dark mb-3">
 			Q&A Boards
-			<div class="row">
-				{% for board in boards %}
-				<div class="card-body">
-					<div class = "col-sm-4">
-						<div class="card" style="width: 18rem;">
-							<img class="card-img-top" src="{{url_for('static',filename = 'uploads/' + board.backImg)}}"  alt="Card image cap">
-							<div class="card-body">
-								<h5 class="card-title">{{board.boardName}}</h5>
-								<p class="card-text">{{ board.boardDesc }}</p>
-								<a href="/Q-A-Board/id/{{ board.id }}" class="btn btn-primary">Go to board</a>
-							</div>
+		</div>
+		<div class="row">
+			{% for board in boards %}
+			<div class="card-body">
+				<div class = "col-sm-4">
+					<div class="card" style="width: 18rem;">
+						<img class="card-img-top" src="{{url_for('static',filename = 'uploads/' + board.backImg)}}"  alt="Card image cap">
+						<div class="card-body">
+							<h5 class="card-title">{{board.boardName}}</h5>
+							<p class="card-text">{{ board.boardDesc }}</p>
+							<a href="/Q-A-Board/id/{{ board.id }}" class="btn btn-primary">Go to board</a>
 						</div>
 					</div>
 				</div>
-				{% endfor %}
 			</div>
+			{% endfor %}
 		</div>
 	</div>  
 </div>
