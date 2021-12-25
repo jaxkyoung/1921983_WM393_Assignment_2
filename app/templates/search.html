@@ -42,11 +42,11 @@ WMGTSS: Home
 		{% if boards is defined and boards|length > 0 %}
 		{% for board in boards %}
 		<div class="row">
-			<div class="card-body" style="margin: 1rem;">
+			<div class="card-body" style="margin-left: 1rem; margin-right: 1rem">
 				<div class="card border-dark">
 					<div class="card-body">
 						<h5 class="card-title">{{ board.boardName }}</h5>
-						<p class="card-text">{{ question.boardDesc }}</p>
+						<p class="card-text">{{ board.boardDesc }}</p>
 					</div>
 				</div>
 			</div>
@@ -56,7 +56,7 @@ WMGTSS: Home
 		{% if questions is defined and questions|length > 0 %}
 		{% for question in questions %}
 		<div class="row">
-			<div class="card-body" style="margin: 1rem;">
+			<div class="card-body" style="margin-left: 1rem; margin-right: 1rem">
 				<div class="card border-dark">
 					<div class="card-body">
 						<h5 class="card-title">{{ question.qTitle }}</h5>
