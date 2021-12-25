@@ -35,7 +35,7 @@ WMGTSS: Home
 
 {% block body %}
 <div class="container" style="padding-top: 1rem;">
-	<div class="card ">
+	<div class="card overflow-auto" style="max-height: 57rem;">
 		<div class="card-header text-white bg-dark mb-3">
 			{{ board.boardName }}
 		</div>
@@ -156,7 +156,7 @@ WMGTSS: Home
 			<div class="card-body" style="margin: 1rem;">
 				<div class="card border-dark">
 					<div class="card-body">
-						<h5 class="card-title">{{ question.qTitle }}</h5>
+						<h4 class="card-title">{{ question.qTitle }}</h4>
 						<p class="card-text">{{ question.qBody }}</p>
 						<!-- Button trigger modal -->
 						{% for answer in answers if answer.questionId == question.id %}
@@ -177,7 +177,7 @@ WMGTSS: Home
 		{% endfor %}
 		{% else %}
 		<div class="card-body">
-			<h5 style="text-align: center;">Ask a question! It will show up here.</h5>
+			<h4 style="text-align: center;">Ask a question! It will show up here.</h4>
 		</div>
 		{%endif%}
 	</div>
