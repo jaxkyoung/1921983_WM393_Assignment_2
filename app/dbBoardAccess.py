@@ -204,17 +204,17 @@ class boardAccess(object):
         answers = Answer.query.join(Answer.question, aliased=True).filter_by(boardId=boardId)
         return answers
     
-    def searchBoard(Board, search):
+    def searchBoard(QABoard, search):
         """Function returns list of boards containing search query in board name or description
 
         Args:
-            Board (object): DB Board table object
+            QABoard (object): DB Board table object
             search (string): String to search board for
 
         Returns:
             list: [description]
         """
-        results = Board.query.filter(or_(Board.boardName.contains(search), Board.boardDesc.contains(search)))
+        results = QABoard.query.filter(or_(QABoard.boardName.contains(search), QABoard.boardDesc.contains(search)))
         return results
     
     

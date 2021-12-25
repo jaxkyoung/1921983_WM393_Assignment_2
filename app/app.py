@@ -208,6 +208,16 @@ def QABoard_abs_post(boardId):
     answers = boardAccess.getAnswers(Answer, boardId)
     return render_template('boards/q_a_board_abstract.html', board=board, questions=questions, answers=answers)
 
+'''Search Functionality'''
+@app.route('/results', methods=['POST'])
+@login_required
+def searchResults():
+    if request.form['action'] == 'searchSubmit':
+        search = request.form['search']
+        boardResults = boardAccess.searchBoard(QABoard, search)
+        questionResults = boardAccess.searchQuestion(Question, search)
+        return render_template('search.html')
+
 
 '''User Log-in, Log-out, and approval pages'''
 # log in page
