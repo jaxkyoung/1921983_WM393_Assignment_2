@@ -8,6 +8,7 @@ version: 1.0
 # encyption library
 from flask_login import current_user
 from datetime import datetime
+from sqlalchemy import or_
 
 # datetime object containing current date and time
 def getDateTime():
@@ -170,8 +171,8 @@ class boardAccess(object):
 
     # Function to add answer
     def addAnswer(db, Answer, aBody, questionId):
-        """[summary]
-
+        """Function to add answer to db
+        
         Args:
             db (object): Database object from app.py
             Answer (object): DB Answer table object
@@ -193,11 +194,40 @@ class boardAccess(object):
         db.session.commit()
     
     def getAnswers(Answer, boardId):
-        """
+        """Function returns list of answers for a given board
 
         Args:
-            Answer ([type]): [description]
+            Answer (object): DB Answer table object
+            boardId (integer): ID of board you want to get answers from
         """
         #answers = Answer.query.filter_by(Answer.question.has(boardId==boardId))
         answers = Answer.query.join(Answer.question, aliased=True).filter_by(boardId=boardId)
         return answers
+    
+    def searchBoard(QABoard, search):
+        """Function returns list of boards containing search query in board name or description
+
+        Args:
+            QABoard (object): DB Board table object
+            search (string): String to search board for
+
+        Returns:
+            list: [description]
+        """
+        results = QABoard.query.filter(or_(QABoard.boardName.contains(search), QABoard.boardDesc.contains(search)))
+        return results
+    
+    
+    def searchQuestion(Question, search):
+        """Function returns list of questions containing search query in title or body
+
+        Args:
+            Question (object): DB Question table object
+            search (string): String to search questions for
+
+        Returns:
+            list: [description]
+        """
+        results = Question.query.filter(or_(Question.qTitle.contains(search), Question.qBody.contains(search)))
+        return results
+

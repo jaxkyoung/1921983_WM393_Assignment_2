@@ -14,7 +14,7 @@
         <!-- my css -->
         {% block css %}{% endblock %}
     </head>
-    <body style="min-height: 150rem; padding-top: 5rem;">
+    <body style="min-height: 100rem; padding-top: 5rem;">
         <div class="bg">
             <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
                 <a class="navbar-brand" href="#">
@@ -63,9 +63,9 @@
                         {% block boardLinks %}
                         {% endblock %}
                     </ul>
-                    <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    <form action="{{ url_for('searchResults') }}" method="POST" class="form-inline my-2 my-lg-0">
+                        <input name = "search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button value = 'searchSubmit' name='action' class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                     </form>
                 </div>
             </nav>
