@@ -18,7 +18,7 @@ def getDateTime():
     """
     now = datetime.now()
     # dd/mm/YY H:M:S
-    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+    dt_string = now.strftime("%d/%m/%Y")
     return now
 
 '''Class to create, read, update, verify, and delete user profiles'''
