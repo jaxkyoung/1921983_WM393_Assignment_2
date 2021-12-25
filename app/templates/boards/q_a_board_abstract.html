@@ -79,6 +79,42 @@ WMGTSS: Home
 						</div>
 					</div>
 				</div>
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addAnswerModal">Add Answer</button>
+				<!-- Modal -->
+				<div class="modal fade" id="addAnswerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Ask a Question</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<form method="POST" action="/Q-A-Board/id/{{ board.id }}" enctype="multipart/form-data">
+								<div class="modal-body">
+									<div class="form-group">
+										<select class="select" name="questionId">
+											<option value="0">Select Question To Answer</option>
+											{% for question in questions %}
+											<option value="{{ question.id }}">{{ question.qTitle }}: {{ question.author.fName }} {{ question.author.sName }}</option>
+											{% endfor %}
+										</select>
+									</div>
+									<div class="form-group">
+										<label for="AnswerBody">Your Answer</label>
+										<textarea name="aBody" class="form-control" rows="3" placeholder="Enter your answer" required></textarea>
+										<small id="boardHelp" class="form-text text-muted">Each answer must have a body</small>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+									<button value='addAnswerSubmit' name='action' type="submit" class="btn btn-primary">Answer Question</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
 				{% if current_user.userType == 'Tutor' %}
 				<!-- Button trigger modal -->
 				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteQuestionModal">Delete Question</button>
@@ -114,62 +150,32 @@ WMGTSS: Home
 				{%endif%}
 			</div>
 		</div>
+		{% if questions is defined and questions|length > 0 %}
+		{% for question in questions %}
 		<div class="row">
-			{% if questions is defined and questions|length > 0 %}
-			{% for question in questions %}
 			<div class="card-body" style="margin: 1rem;">
 				<div class="card border-dark">
 					<div class="card-body">
 						<h5 class="card-title">{{ question.qTitle }}</h5>
 						<p class="card-text">{{ question.qBody }}</p>
 						<!-- Button trigger modal -->
-						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addAnswerModal">Add Answer</button>
-						{% for answer in answers %}
-						{% if answer.questionId == question.id %}
+						{% for answer in answers if answer.questionId == question.id %}
 						<div class="row">
 							<div class="card-body">
 								<div class="card bg-light" style="padding: 1rem;">
 									<p class="card-text">{{ answer.aBody }}</p>
-									<small class="form-text text-muted">Posted by: {{ answer.author.email }} </small>
-									<small class="form-text text-muted">Posted on: {{ answer.postDate }} </small>
+									<small class="form-text text-muted">Posted by: {{answer.author.fName}} {{ answer.author.sName}} ({{ answer.author.email }}) </small>
+									<small class="form-text text-muted">Posted on: {{ answer.postDate.strftime('%d-%m-%Y %H:%M') }}</small>
 								</div>
 							</div>
 						</div>
-						{% endif %}
 						{% endfor %}
-						<!-- Modal -->
-						<div class="modal fade" id="addAnswerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-							<div class="modal-dialog" role="document">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">Add Answer</h5>
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<form action="/Q-A-Board/id/{{ board.id }}" method="POST">
-										<div class="modal-body">
-											<input type="hidden" name="questionId" value={{ question.id }}>
-											<div class="form-group">
-												<label for="AnswerBody">Your Answer</label>
-												<textarea name="aBody" class="form-control" rows="3" placeholder="Enter your answer" required></textarea>
-												<small id="boardHelp" class="form-text text-muted">Each answer must have a body</small>
-											</div>
-										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-											<button value='addAnswerSubmit' name='action' type="submit" class="btn btn-primary">Answer Question</button>
-										</div>
-									</form>
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		{% endfor %}
-		{%else%}
+		{% else %}
 		<div class="card-body">
 			<h5 style="text-align: center;">Ask a question! It will show up here.</h5>
 		</div>
