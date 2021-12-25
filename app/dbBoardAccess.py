@@ -214,7 +214,7 @@ class boardAccess(object):
         Returns:
             list: [description]
         """
-        results = QABoard.query.filter(or_(QABoard.boardName.contains(search), QABoard.boardDesc.contains(search)))
+        results = QABoard.query.filter(or_(QABoard.boardName.contains(search), QABoard.boardDesc.contains(search))).all()
         return results
     
     
@@ -228,6 +228,6 @@ class boardAccess(object):
         Returns:
             list: [description]
         """
-        results = Question.query.filter(or_(Question.qTitle.contains(search), Question.qBody.contains(search)))
+        results = Question.query.filter(or_(Question.qTitle.contains(search), Question.qBody.contains(search))).all()
         return results
 
