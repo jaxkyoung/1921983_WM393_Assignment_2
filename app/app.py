@@ -216,7 +216,7 @@ def searchResults():
         search = request.form['search']
         boardResults = boardAccess.searchBoard(QABoard, search)
         questionResults = boardAccess.searchQuestion(Question, search)
-        return render_template('search.html')
+        return render_template('search.html', questions=questionResults, boards=boardResults)
 
 
 '''User Log-in, Log-out, and approval pages'''

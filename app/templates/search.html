@@ -35,8 +35,37 @@ WMGTSS: Home
 
 {% block body %}
 <div class="container" style="padding-top: 1rem;">
-	<div class="card ">
+	<div class="card overflow-auto" style="max-height: 57rem;">
 		<div class="card-header text-white bg-dark mb-3">
 			Search Results
 		</div>
+		{% if boards is defined and boards|length > 0 %}
+		{% for board in boards %}
+		<div class="row">
+			<div class="card-body" style="margin-left: 1rem; margin-right: 1rem">
+				<div class="card border-dark">
+					<div class="card-body">
+						<h5 class="card-title">{{ board.boardName }}</h5>
+						<p class="card-text">{{ board.boardDesc }}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+		{% endif %}
+		{% if questions is defined and questions|length > 0 %}
+		{% for question in questions %}
+		<div class="row">
+			<div class="card-body" style="margin-left: 1rem; margin-right: 1rem">
+				<div class="card border-dark">
+					<div class="card-body">
+						<h5 class="card-title">{{ question.qTitle }}</h5>
+						<p class="card-text">{{ question.qBody }}</p>
+						<!-- Button trigger modal -->
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+		{% endif %}
 {% endblock %}
