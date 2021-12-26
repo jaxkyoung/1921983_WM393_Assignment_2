@@ -35,8 +35,6 @@ from flask_login import UserMixin, login_manager, login_user
 from flask_login import LoginManager, login_required, logout_user, current_user
 
 # SQLAlchemy for database creation and updating
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.orm import backref
 from flask_migrate import Migrate
 
 # class containing methods to access and write users to database
@@ -63,69 +61,10 @@ login_manager.login_view = "logIn"
 
 '''DB handling and table creation'''
 # initialising database
-db = SQLAlchemy(app)
+from app.models import db, User
+db.init_app(app)
 # to handle adding or removing of columns of already created DB
 migrate = Migrate(app, db)
-
-# database table defnitions
-# board table, to track Q&A boards
-class QABoard(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    boardName = db.Column(db.String(50), nullable = False)
-    boardDesc = db.Column(db.String(500), nullable = True)
-    backImg = db.Column(db.String(100), nullable = True)
-    questions = db.relationship('Question', backref='board')
-
-# user table, to track current registered users that have been approved
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key = True)
-    email = db.Column(db.String(100), unique = True, nullable = False)
-    password = db.Column(db.String(80), nullable = False)
-    fName = db.Column(db.String(20), nullable = False)
-    sName = db.Column(db.String(30), nullable = False)
-    userType = db.Column(db.String(20), nullable = False)
-    questions = db.relationship('Question', backref='author')
-    answers = db.relationship('Answer', backref='author')
-    comments = db.relationship('Comment', backref='author')
-
-# pending user table, to track pending users waiting for access approval
-class PendingUser(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key = True)
-    email = db.Column(db.String(100), unique = True, nullable = False)
-    password = db.Column(db.String(80), nullable = False)
-    fName = db.Column(db.String(20), nullable = False)
-    sName = db.Column(db.String(30), nullable = False)
-    userType = db.Column(db.String(20), nullable = False)
-
-# question table to track questions being asked on posts
-# with foreign keys linking to users and boards
-class Question(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    qTitle = db.Column(db.String(500), nullable = False)
-    qBody = db.Column(db.String(1000))
-    postDate = db.Column(db.DateTime)
-    posterId = db.Column(db.Integer, db.ForeignKey(User.id))
-    boardId = db.Column(db.Integer, db.ForeignKey(QABoard.id))
-    answers = db.relationship('Answer', backref='question')
-    comments = db.relationship('Comment', backref='question')
-
-# answer table to track answers to questions from question tabel
-# foreign keys linking to question and users
-class Answer(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    aBody = db.Column(db.String(2000))
-    postDate = db.Column(db.DateTime)
-    posterId = db.Column(db.Integer, db.ForeignKey(User.id))
-    questionId = db.Column(db.Integer, db.ForeignKey(Question.id))
-    
-# comment table to track comments on questions from question tabel
-# foreign keys linking to question and users
-class Comment(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    cBody = db.Column(db.String(2000))
-    postDate = db.Column(db.DateTime)
-    posterId = db.Column(db.Integer, db.ForeignKey(User.id))
-    questionId = db.Column(db.Integer, db.ForeignKey(Question.id))
 
 
 ''' Misc and Error Handling'''
@@ -159,7 +98,7 @@ def home():
 @app.route('/Q-A-Board')
 @login_required
 def QABoardHome():
-    boards = boardAccess.getBoards(QABoard)
+    boards = boardAccess.getBoards()
     return render_template('boards/q_a_board_home.html', boards=boards)
 
 # Q&A board CRUD button processing
@@ -171,10 +110,10 @@ def QABoard_post():
         f = request.files['imgPath']
         filename = secure_filename(f.filename)
         f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        boardAccess.createBoard(db, QABoard, boardName, boardDesc, filename)
+        boardAccess.createBoard(boardName, boardDesc, filename)
     if request.form['action'] == 'deleteBoardSubmit':
         boardId = request.form['boardId']
-        boardAccess.deleteBoard(db, QABoard, boardId)
+        boardAccess.deleteBoard(boardId)
     if request.form['action'] == 'editBoardSubmit':
         pass
         # boardId = request.form['boardId']
@@ -184,9 +123,9 @@ def QABoard_post():
 @app.route('/Q-A-Board/id/<boardId>')
 @login_required
 def QABoard_abstract(boardId):
-    board = boardAccess.getBoard(QABoard, boardId)
-    questions = boardAccess.getQuestions(Question, boardId)
-    answers = boardAccess.getAnswers(Answer, boardId)
+    board = boardAccess.getBoard(boardId)
+    questions = boardAccess.getQuestions(boardId)
+    answers = boardAccess.getAnswers(boardId)
     return render_template('boards/q_a_board_abstract.html', board=board, questions=questions, answers=answers)
 
 
@@ -198,14 +137,14 @@ def QABoard_abs_post(boardId):
     if request.form['action'] == 'askQuestionSubmit':
         qTitle = request.form['qTitle']
         qBody = request.form['qBody']
-        boardAccess.addQuestion(db, Question, qTitle, qBody, boardId)
+        boardAccess.addQuestion(qTitle, qBody, boardId)
     elif request.form['action'] == 'addAnswerSubmit':
         aBody = request.form['aBody']
         questionId = request.form['questionId']
-        boardAccess.addAnswer(db, Answer, aBody, questionId)
-    board = boardAccess.getBoard(QABoard, boardId)
-    questions = boardAccess.getQuestions(Question, boardId)
-    answers = boardAccess.getAnswers(Answer, boardId)
+        boardAccess.addAnswer(aBody, questionId)
+    board = boardAccess.getBoard(boardId)
+    questions = boardAccess.getQuestions(boardId)
+    answers = boardAccess.getAnswers(boardId)
     return render_template('boards/q_a_board_abstract.html', board=board, questions=questions, answers=answers)
 
 '''Search Functionality'''
@@ -214,8 +153,8 @@ def QABoard_abs_post(boardId):
 def searchResults():
     if request.form['action'] == 'searchSubmit':
         search = request.form['search']
-        boardResults = boardAccess.searchBoard(QABoard, search)
-        questionResults = boardAccess.searchQuestion(Question, search)
+        boardResults = boardAccess.searchBoard(search)
+        questionResults = boardAccess.searchQuestion(search)
         return render_template('search.html', questions=questionResults, boards=boardResults)
 
 
@@ -233,11 +172,11 @@ def logIn_post():
     userEmail = request.form["userEmail"]
     userPassword = request.form["userPassword"]
     # check if password and email match database
-    check = userAccess.check_password(User, userEmail, userPassword)
+    check = userAccess.check_password(userEmail, userPassword)
     # if check is true
     if check == True:
         # get user from db
-        user = userAccess.getUser(User, userEmail)
+        user = userAccess.getUser(userEmail)
         if user.email == userEmail:
             # log in user
             login_user(user)
@@ -298,11 +237,11 @@ def register_post():
             # if tutor or TA
             if userType == "Tutor" or userType == "Teaching Assistant":
                 # add to pending users
-                userAccess.addPendingUser(db, PendingUser, userEmail, userPassword, userFirstNameInput, userSurnameInput, userType)
+                userAccess.addPendingUser(userEmail, userPassword, userFirstNameInput, userSurnameInput, userType)
                 return 'You have created a privileged account with email: ' + userEmail + ', you will be redirected in 3 seconds', {"Refresh": "3; url = /"}
             # if student, activate account immediately
             elif userType == "Student":
-                userAccess.addUser(db, User, userEmail, userPassword, userFirstNameInput, userSurnameInput, userType)
+                userAccess.addUser(userEmail, userPassword, userFirstNameInput, userSurnameInput, userType)
                 return 'You have created a standard account with email: ' + userEmail + ', you will be redirected in 3 seconds', {"Refresh": "3; url = /"}
     else:
         flash('Passwords do not match', 'error')
@@ -313,7 +252,7 @@ def register_post():
 # login required for this page
 @login_required
 def approvalsPage():
-    users = userAccess.getPendingUserDetails(PendingUser)
+    users = userAccess.getPendingUserDetails()
     if current_user.userType == "Tutor":
         return render_template('auth/approve_user.html', title='User Access Approvals', users=users)
     else:
@@ -322,16 +261,16 @@ def approvalsPage():
 # user approval processing
 @app.route('/approvals/approve/<email>/')
 def approveUser(email):
-    users = userAccess.getPendingUserDetails(PendingUser)
-    userAccess.approveUser(db, PendingUser, User, email)
+    users = userAccess.getPendingUserDetails()
+    userAccess.approveUser(email)
     flash(email + ' shall be approved')
     return render_template('auth/approve_user.html', title='User Access Approvals', users=users)
 
 # deny user processing
 @app.route('/approvals/deny/<email>/')
 def denyUser(email):
-    users = userAccess.getPendingUserDetails(PendingUser)
-    userAccess.denyUser(db, PendingUser, email)
+    users = userAccess.getPendingUserDetails()
+    userAccess.denyUser(email)
     flash(email + ' shall be denied access')
     return render_template('auth/approve_user.html', title='User Access Approvals', users=users)
 
