@@ -9,11 +9,13 @@ version: 1.0
 import bcrypt
 from getpass import getpass
 
+from app.models import db, User, PendingUser
+
 '''Class to create, read, update, verify, and delete user profiles'''
 class userAccess(object):
 
     # function to add user to json DB, requires valid email, password, first name and surname
-    def addPendingUser(db, PendingUser, email, password, fName, sName, userType):
+    def addPendingUser(email, password, fName, sName, userType):
         """Function to add user to pendinguser table
 
         Args:
@@ -44,7 +46,7 @@ class userAccess(object):
         db.session.commit()
 
     # function to add user to json DB, requires valid email, password, first name and surname
-    def addUser(db, User, email, password, fName, sName, userType):
+    def addUser(email, password, fName, sName, userType):
         """Function to add user to user table
 
         Args:
@@ -75,7 +77,7 @@ class userAccess(object):
         db.session.commit()
 
     # returns list of users in user table
-    def getUserDetails(User):
+    def getUserDetails():
         """Returns list of users
 
         Args:
@@ -88,7 +90,7 @@ class userAccess(object):
         return users
     
     # returns list of pending users in pendinguser table
-    def getPendingUserDetails(PendingUser):
+    def getPendingUserDetails():
         """Returns list of pending users in PendingUser table
 
         Args:
@@ -115,7 +117,7 @@ class userAccess(object):
         return bcrypt.hashpw(plain_text_password.encode(), bcrypt.gensalt())
 
     # returns boolena when passed with email and plain text password
-    def check_password(User, email, plain_text_password):
+    def check_password(email, plain_text_password):
         """Function to check given password against hash in DB, returns boolean
 
         Args:
@@ -126,7 +128,7 @@ class userAccess(object):
         Returns:
             boolean: True if password matches DB, False if not.
         """
-        users = userAccess.getUserDetails(User)
+        users = userAccess.getUserDetails()
         for user in users:
             if user.email == email:
                 hashed_password = user.password
@@ -135,7 +137,7 @@ class userAccess(object):
         return False   
 
     # returns user record associated with email
-    def getUser(User, email):
+    def getUser(email):
         """Function returns User object of given email
 
         Args:
@@ -149,7 +151,7 @@ class userAccess(object):
         return users
 
     # returns users first and surname when passed email
-    def getUserName(User, email):
+    def getUserName(email):
         """Function that returns first and surname of a given user by checking email
 
         Args:
@@ -158,14 +160,14 @@ class userAccess(object):
         Returns:
             list: [First name, Surname]
         """
-        users = userAccess.getUserDetails(User)
+        users = userAccess.getUserDetails()
         # Iterating through the json user detials until matching details found
         for user in users:
             if user.email == email:
                 return user.fName, user.sName
 
     # returns user type of passed user email
-    def getUserType(User, email):
+    def getUserType(email):
         """Function that returns user type (level) for a given user email
 
         Args:
@@ -179,7 +181,7 @@ class userAccess(object):
         return user.userType
 
     # returns nothing, function denies user registration, i.e. moves user from PendingUser -> to User table
-    def approveUser(db, PendingUser, User, email):
+    def approveUser(email):
         """Function approves user access, moves user from pending to active user table.
 
         Args:
@@ -188,7 +190,7 @@ class userAccess(object):
             User (object): User table object from app.py
             email (string): Email of user you want to approve
         """
-        users = userAccess.getPendingUserDetails(PendingUser)
+        users = userAccess.getPendingUserDetails()
         for user in users:
             if user.email == email:
                 user_to_approve = User(
@@ -203,7 +205,7 @@ class userAccess(object):
                 db.session.commit()
 
     # returns nothing, function approves user, i.e. deletes user from PendingUser
-    def denyUser(db, PendingUser, email):
+    def denyUser(email):
         """Function denies user access, removes user from pending user table
 
         Args:
@@ -211,7 +213,7 @@ class userAccess(object):
             PendingUser (object): PendingUser table object from app.py
             email (string): Email of user you want to deny access
         """
-        users = userAccess.getPendingUserDetails(PendingUser)
+        users = userAccess.getPendingUserDetails()
         for user in users:
             if user.email == email:
                 db.session.delete(user)

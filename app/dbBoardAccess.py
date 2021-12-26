@@ -10,6 +10,8 @@ from flask_login import current_user
 from datetime import datetime
 from sqlalchemy import or_
 
+from app.models import db, QABoard, Question, Answer, Comment
+
 # datetime object containing current date and time
 def getDateTime():
     """Function to get and return current date and time in format dd/mm/YY H:M:S
@@ -26,7 +28,7 @@ def getDateTime():
 class boardAccess(object):
 
     # Function to create board
-    def createBoard(db, QABoard, boardName, boardDesc, imgPath):
+    def createBoard(boardName, boardDesc, imgPath):
         """Function to create Q&A Board
 
         Args:
@@ -48,7 +50,7 @@ class boardAccess(object):
         db.session.commit()
 
     # Function to delete board
-    def deleteBoard(db, QABoard, boardId):
+    def deleteBoard(boardId):
         """Function to delete board from Q&A board page
 
         Args:
@@ -64,7 +66,7 @@ class boardAccess(object):
         db.session.commit
     
     # Function to get list of boards
-    def getBoards(QABoard):
+    def getBoards():
         """Function to get list of current boards in DB
 
         Args:
@@ -79,7 +81,7 @@ class boardAccess(object):
         return boards
     
     # Function to get individual board
-    def getBoard(QABoard, boardId):
+    def getBoard(boardId):
         """Function to get fields of individual board
 
         Args:
@@ -95,7 +97,7 @@ class boardAccess(object):
         return board
 
     # Function to edit board
-    def editBoard(db, QABoard, boardId, boardName):
+    def editBoard(boardId, boardName):
         """Function to edit board name and description
 
         Args:
@@ -112,7 +114,7 @@ class boardAccess(object):
         db.session.commit()
 
     # Function to get list of questions on a board
-    def getQuestions(Question, boardId):
+    def getQuestions(boardId):
         """Function to get list of questions on given board
 
         Args:
@@ -128,7 +130,7 @@ class boardAccess(object):
         return questions
 
     # Function to add question to a board
-    def addQuestion(db, Question, qTitle, qBody, boardId):
+    def addQuestion(qTitle, qBody, boardId):
         """Function to add question to board
 
         Args:
@@ -154,7 +156,7 @@ class boardAccess(object):
         db.session.commit()
 
     # Function to delete question
-    def deleteQuestion(db, Question, questionId):
+    def deleteQuestion(questionId):
         """Function to delete chosen question from questionId
 
         Args:
@@ -170,7 +172,7 @@ class boardAccess(object):
         db.session.commit()
 
     # Function to add answer
-    def addAnswer(db, Answer, aBody, questionId):
+    def addAnswer(aBody, questionId):
         """Function to add answer to db
         
         Args:
@@ -193,7 +195,7 @@ class boardAccess(object):
         # commit DB
         db.session.commit()
     
-    def getAnswers(Answer, boardId):
+    def getAnswers(boardId):
         """Function returns list of answers for a given board
 
         Args:
@@ -204,7 +206,7 @@ class boardAccess(object):
         answers = Answer.query.join(Answer.question, aliased=True).filter_by(boardId=boardId)
         return answers
     
-    def searchBoard(QABoard, search):
+    def searchBoard(search):
         """Function returns list of boards containing search query in board name or description
 
         Args:
@@ -218,7 +220,7 @@ class boardAccess(object):
         return results
     
     
-    def searchQuestion(Question, search):
+    def searchQuestion(search):
         """Function returns list of questions containing search query in title or body
 
         Args:
