@@ -30,7 +30,7 @@ from flask import redirect
 from flask_login import login_required, logout_user, current_user
 
 # class containing methods to access and write users to database
-from app.dbBoardAccess import boardAccess
+from app.api.dbBoardAccess import boardAccess
 
 from flask import current_app
 

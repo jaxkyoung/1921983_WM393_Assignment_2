@@ -38,7 +38,7 @@ from flask_login import login_required, logout_user, current_user
 from flask_migrate import Migrate
 
 # class containing methods to access and write users to database
-from app.dbUserAccess import userAccess
+from app.api.dbUserAccess import userAccess
 
 from app.models import db, User
 

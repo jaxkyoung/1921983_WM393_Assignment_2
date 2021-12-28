@@ -38,8 +38,8 @@ from flask_login import LoginManager, login_required, logout_user, current_user
 from flask_migrate import Migrate
 
 # class containing methods to access and write users to database
-from app.dbUserAccess import userAccess
-from app.dbBoardAccess import boardAccess
+from app.api.dbUserAccess import userAccess
+from app.api.dbBoardAccess import boardAccess
 
 
 '''App initialisation'''

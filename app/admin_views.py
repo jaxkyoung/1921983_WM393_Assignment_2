@@ -18,7 +18,7 @@ from flask import flash
 from flask_login import login_required, current_user
 
 # class containing methods to access and write users to database
-from app.dbUserAccess import userAccess
+from app.api.dbUserAccess import userAccess
 
 from flask import current_app, Blueprint, render_template
 admin = Blueprint('admin', __name__)
