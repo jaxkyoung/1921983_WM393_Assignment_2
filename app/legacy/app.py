@@ -31,7 +31,7 @@ from flask import flash
 from flask import redirect
 
 # flask libraries to handle user logins and account tracking
-from flask_login import UserMixin, login_manager, login_user
+from flask_login import login_manager, login_user
 from flask_login import LoginManager, login_required, logout_user, current_user
 
 # SQLAlchemy for database creation and updating
