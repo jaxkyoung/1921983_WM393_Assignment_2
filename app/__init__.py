@@ -12,9 +12,6 @@ def create_app():
 
 	app.config.from_object('app.config.DevelopmentConfig')
 
-	# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///WMGTSS.db'
-	# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 	UPLOAD_FOLDER = join(dirname(realpath(__file__)), 'static/uploads')
 	app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 	# return app
