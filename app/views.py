@@ -82,7 +82,7 @@ def QABoard_post():
         pass
         # boardId = request.form['boardId']
         # boardName = request.form['boardName']
-    return redirect(url_for('QABoardHome'))   
+    return redirect(url_for('base.QABoardHome'))   
 
 @base.route('/Q-A-Board/id/<boardId>')
 @login_required
