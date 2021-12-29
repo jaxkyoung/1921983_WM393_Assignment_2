@@ -9,12 +9,12 @@ WMGTSS: Home
 {% endblock %}
 
 {% block homeLink %}
-<a class="nav-link" href="{{ url_for('home') }}">Home</a>
+<a class="nav-link" href="{{ url_for('base.home') }}">Home</a>
 {% endblock %}
 
 {% block boardLinks %}
 <li class="nav-item active">
-	<a class="nav-link" href="{{ url_for('QABoardHome') }}">Q&A</a>
+	<a class="nav-link" href="{{ url_for('base.QABoardHome') }}">Q&A</a>
 </li>
 <li class="nav-item">
 	<a class="nav-link disabled" href="#">Lecture</a>
@@ -50,7 +50,7 @@ WMGTSS: Home
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
-					<form method="POST" action="{{ url_for('QABoard_post') }}" enctype="multipart/form-data">
+					<form method="POST" action="{{ url_for('base.QABoard_post') }}" enctype="multipart/form-data">
 						<div class="modal-body">
 							<div class="form-group">
 								<label for="InputName">Board Name</label>
@@ -89,7 +89,7 @@ WMGTSS: Home
 						</button>
 					</div>
 					<div class="modal-body">
-						<form action="{{ url_for('QABoard_post') }}" method="POST">
+						<form action="{{ url_for('base.QABoard_post') }}" method="POST">
 							<div class="modal-body">
 								<select class="select" name="boardId">
 									<option value="0">Select Board Name</option>
@@ -119,7 +119,7 @@ WMGTSS: Home
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
-					<form action="{{ url_for('QABoard_post') }}" method="POST">
+					<form action="{{ url_for('base.QABoard_post') }}" method="POST">
 						<div class="modal-body">
 							<select class="select" name="boardId">
 								<option value="0">Select Board Name</option>

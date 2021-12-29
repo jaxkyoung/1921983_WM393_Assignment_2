@@ -6,7 +6,7 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir) 
 
-from app.dbBoardAccess import boardAccess
+from app.api.dbBoardAccess import boardAccess
 
 def test_addBoard():
     assert True

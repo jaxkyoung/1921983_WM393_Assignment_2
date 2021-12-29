@@ -8,12 +8,12 @@ WMGTSS: Home
 {% endblock %}
 
 {% block homeLink %}
-<a class="nav-link" href="{{ url_for('home') }}">Home</a>
+<a class="nav-link" href="{{ url_for('base.home') }}">Home</a>
 {% endblock %}
 
 {% block boardLinks %}
 <li class="nav-item">
-	<a class="nav-link" href="{{ url_for('QABoardHome') }}">Q&A</a>
+	<a class="nav-link" href="{{ url_for('base.QABoardHome') }}">Q&A</a>
 </li>
 <li class="nav-item">
 	<a class="nav-link disabled" href="#">Lecture</a>
@@ -62,7 +62,7 @@ WMGTSS: Home
 			<div class="col-md-6 col-lg-7 d-flex align-items-center">
 				<div class="card-body p-4 p-lg-5 text-black">
 
-				<form action="{{ url_for('logIn_post') }}" method="POST">
+				<form action="{{ url_for('login.logIn_post') }}" method="POST">
 
 					<div class="d-flex align-items-center mb-3 pb-1">
 					<i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
@@ -86,7 +86,7 @@ WMGTSS: Home
 					<button class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
 					</div>
 					<a class="small text-muted" href="#!">Forgot password?</a>
-					<p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="{{url_for('register')}}" style="color: #393f81;">Register here</a></p>
+					<p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="{{url_for('login.register')}}" style="color: #393f81;">Register here</a></p>
 				</form>
 				</div>
 			</div>

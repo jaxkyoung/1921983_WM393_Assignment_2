@@ -1,9 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
-from sqlalchemy.orm import backref
 
 db = SQLAlchemy()
-
 
 # database table defnitions
 # board table, to track Q&A boards

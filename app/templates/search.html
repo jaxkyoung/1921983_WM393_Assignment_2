@@ -9,12 +9,12 @@ WMGTSS: Home
 {% endblock %}
 
 {% block homeLink %}
-<a class="nav-link" href="{{ url_for('home') }}">Home</a>
+<a class="nav-link" href="{{ url_for('base.home') }}">Home</a>
 {% endblock %}
 
 {% block boardLinks %}
 <li class="nav-item">
-	<a class="nav-link" href="{{ url_for('QABoardHome') }}">Q&A</a>
+	<a class="nav-link" href="{{ url_for('base.QABoardHome') }}">Q&A</a>
 </li>
 <li class="nav-item">
 	<a class="nav-link disabled" href="#">Lecture</a>
