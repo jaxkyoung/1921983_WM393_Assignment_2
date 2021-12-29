@@ -27,14 +27,12 @@ from flask import flash
 from flask import redirect
 
 # flask libraries to handle user logins and account tracking
-from flask_login import login_required, logout_user, current_user
+from flask_login import login_required, logout_user
 
 # class containing methods to access and write users to database
 from app.api.dbBoardAccess import boardAccess
 
 from flask import current_app
-
-from app.models import User
 
 from flask import current_app, Blueprint, render_template
 base = Blueprint('base', __name__)
@@ -75,7 +73,7 @@ def QABoard_post():
         boardDesc = request.form['boardDesc']
         f = request.files['imgPath']
         filename = secure_filename(f.filename)
-        f.save(os.path.join(base.config['UPLOAD_FOLDER'], filename))
+        f.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
         boardAccess.createBoard(boardName, boardDesc, filename)
     if request.form['action'] == 'deleteBoardSubmit':
         boardId = request.form['boardId']
