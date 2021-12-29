@@ -1,12 +1,16 @@
 import os
 import sys
 import inspect
+import pytest
 
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir) 
 
-import app.app as app
+from app import create_app
 
-def test_always_pass():
-    assert True
+@pytest.fixture
+def app():
+    app = create_app()
+    app.config.from_object('app.config.TestingConfig')
+    return app

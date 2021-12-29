@@ -18,7 +18,7 @@
         <div class="bg">
             <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
                 <a class="navbar-brand" href="#">
-                    <image src="{{url_for('static',filename = 'images/wmglogo.png')}}" width = "60" height = "50" class="d-inline-block align-middle" href="{{ url_for('goHome') }}" alt="">
+                    <image src="{{url_for('static',filename = 'images/wmglogo.png')}}" width = "60" height = "50" class="d-inline-block align-middle" href="{{ url_for('base.goHome') }}" alt="">
                     WMG Teaching Support System
                 </a>
                 <div class="navbar" id="navbarSupportedContent">
@@ -36,7 +36,7 @@
                                 <a class="dropdown-item" href="#">View Profile</a>
                                 <a class="dropdown-item" href="#">Settings</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{url_for('logOut')}}">Log Out</a>
+                                <a class="dropdown-item" href="{{url_for('login.logOut')}}">Log Out</a>
                             </div>
                             {%else%}
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -45,8 +45,8 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="#">Settings</a>                  
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{url_for('register')}}">Create Account</a>
-                                <a class="dropdown-item" href="{{url_for('logIn')}}">Log In</a>
+                                <a class="dropdown-item" href="{{url_for('login.register')}}">Create Account</a>
+                                <a class="dropdown-item" href="{{url_for('login.logIn')}}">Log In</a>
                             </div>
                             {%endif%}                     
                         </li>
@@ -63,7 +63,7 @@
                         {% block boardLinks %}
                         {% endblock %}
                     </ul>
-                    <form action="{{ url_for('searchResults') }}" method="POST" class="form-inline my-2 my-lg-0">
+                    <form action="{{ url_for('base.searchResults') }}" method="POST" class="form-inline my-2 my-lg-0">
                         <input name = "search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                         <button value = 'searchSubmit' name='action' class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                     </form>
