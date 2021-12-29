@@ -1,0 +1,66 @@
+BEGIN TRANSACTION;
+DROP TABLE IF EXISTS "qa_board";
+CREATE TABLE IF NOT EXISTS "qa_board" (
+	"id"	INTEGER NOT NULL AUTOINCREMENT,
+	"boardName"	VARCHAR(50) NOT NULL,
+	"backImg"	VARCHAR(100),
+	"boardDesc"	VARCHAR(500),
+	PRIMARY KEY("id")
+);
+DROP TABLE IF EXISTS "user";
+CREATE TABLE IF NOT EXISTS "user" (
+	"id"	INTEGER NOT NULL AUTOINCREMENT,
+	"email"	VARCHAR(100) NOT NULL,
+	"password"	VARCHAR(80) NOT NULL,
+	"fName"	VARCHAR(20) NOT NULL,
+	"sName"	VARCHAR(30) NOT NULL,
+	"userType"	VARCHAR(20) NOT NULL,
+	UNIQUE("email"),
+	PRIMARY KEY("id")
+);
+DROP TABLE IF EXISTS "question";
+CREATE TABLE IF NOT EXISTS "question" (
+	"id"	INTEGER NOT NULL AUTOINCREMENT,
+	"qTitle"	VARCHAR(500) NOT NULL,
+	"qBody"	VARCHAR(1000),
+	"postDate"	DATETIME,
+	"posterId"	INTEGER,
+	"boardId"	INTEGER,
+	FOREIGN KEY("boardId") REFERENCES "qa_board"("id"),
+	FOREIGN KEY("posterId") REFERENCES "user"("id"),
+	PRIMARY KEY("id")
+);
+DROP TABLE IF EXISTS "pending_user";
+CREATE TABLE IF NOT EXISTS "pending_user" (
+	"id"	INTEGER NOT NULL AUTOINCREMENT,
+	"email"	VARCHAR(100) NOT NULL,
+	"password"	VARCHAR(80) NOT NULL,
+	"fName"	VARCHAR(20) NOT NULL,
+	"sName"	VARCHAR(30) NOT NULL,
+	"userType"	VARCHAR(20) NOT NULL,
+	PRIMARY KEY("id"),
+	UNIQUE("email")
+);
+DROP TABLE IF EXISTS "answer";
+CREATE TABLE IF NOT EXISTS "answer" (
+	"id"	INTEGER NOT NULL AUTOINCREMENT,
+	"aBody"	VARCHAR(2000),
+	"postDate"	DATETIME,
+	"posterId"	INTEGER,
+	"questionId"	INTEGER,
+	FOREIGN KEY("posterId") REFERENCES "user"("id"),
+	FOREIGN KEY("questionId") REFERENCES "question"("id"),
+	PRIMARY KEY("id")
+);
+DROP TABLE IF EXISTS "comment";
+CREATE TABLE IF NOT EXISTS "comment" (
+	"id"	INTEGER NOT NULL AUTOINCREMENT,
+	"cBody"	VARCHAR(2000),
+	"postDate"	DATETIME,
+	"posterId"	INTEGER,
+	"questionId"	INTEGER,
+	FOREIGN KEY("posterId") REFERENCES "user"("id"),
+	FOREIGN KEY("questionId") REFERENCES "question"("id"),
+	PRIMARY KEY("id")
+);
+COMMIT;
