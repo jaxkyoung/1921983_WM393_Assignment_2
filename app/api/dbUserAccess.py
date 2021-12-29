@@ -218,4 +218,3 @@ class userAccess(object):
             if user.email == email:
                 db.session.delete(user)
                 db.session.commit()
-
