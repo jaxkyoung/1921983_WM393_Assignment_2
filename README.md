@@ -37,9 +37,9 @@ source venv/bin/activate
 ```
 pip install -r requirements.txt
 ```
-4. Run wsgi.py
+4. Run run.py
 ```
-python wsgi.py
+python run.py
 ```
 
 ### Windows
