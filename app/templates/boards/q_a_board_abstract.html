@@ -159,17 +159,31 @@ WMGTSS: Home
 						<h4 class="card-title">{{ question.qTitle }}</h4>
 						<p class="card-text">{{ question.qBody }}</p>
 						<!-- Button trigger modal -->
-						{% for answer in answers if answer.questionId == question.id %}
-						<div class="row">
-							<div class="card-body">
-								<div class="card bg-light" style="padding: 1rem;">
-									<p class="card-text">{{ answer.aBody }}</p>
-									<small class="form-text text-muted">Posted by: {{answer.author.fName}} {{ answer.author.sName}} ({{ answer.author.email }}) </small>
-									<small class="form-text text-muted">Posted on: {{ answer.postDate.strftime('%d-%m-%Y %H:%M') }}</small>
+						<button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapse{{question.id}}" aria-expanded="false" aria-controls="collapseExample">
+							View/Close Answers
+						</button>
+						<div class="collapse" id="collapse{{question.id}}">
+							{% for answer in answers if answer.questionId == question.id %}
+							<div class="row">
+								<div class="card-body">
+									<div class="card bg-light" style="padding: 1rem;">
+										<p class="card-text">{{ answer.aBody }}</p>
+										<small class="form-text text-muted">Posted by: {{answer.author.fName}} {{ answer.author.sName}} ({{ answer.author.email }}) </small>
+										<small class="form-text text-muted">Posted on: {{ answer.postDate.strftime('%d-%m-%Y %H:%M') }}</small>
+									</div>
 								</div>
 							</div>
+							{% endfor %}
+							{% if answers|length == 0%}
+							<div class="row">
+								<div class="card-body">
+									<div class="card bg-light" style="padding: 1rem;">
+										<p class="card-text">Answer the question and it will show here!</p>
+									</div>
+								</div>
+							</div>
+							{% endif %}
 						</div>
-						{% endfor %}
 					</div>
 				</div>
 			</div>
