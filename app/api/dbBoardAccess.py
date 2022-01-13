@@ -203,7 +203,7 @@ class boardAccess(object):
             boardId (integer): ID of board you want to get answers from
         """
         #answers = Answer.query.filter_by(Answer.question.has(boardId==boardId))
-        answers = Answer.query.join(Answer.question, aliased=True).filter_by(boardId=boardId)
+        answers = Answer.query.join(Answer.question, aliased=True).filter_by(boardId=boardId).all()
         return answers
     
     def searchBoard(search):
