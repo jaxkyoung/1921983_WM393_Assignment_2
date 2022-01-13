@@ -5,7 +5,7 @@ from flask_login import LoginManager
 # SQLAlchemy for database creation and updating
 from flask_migrate import Migrate
 
-'''App initialisation'''
+'''App factory'''
 # initialising flask app and path to database
 def create_app():
 	app = Flask(__name__)
@@ -14,7 +14,6 @@ def create_app():
 
 	UPLOAD_FOLDER = join(dirname(realpath(__file__)), 'static/uploads')
 	app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-	# return app
 
 	from app.models import db, User
 	db.init_app(app)
@@ -39,7 +38,6 @@ def create_app():
 	# link to log in page
 	login_manager.login_view = "login.logIn"
  
- 
 	''' Misc and Error Handling'''
 	# user loader to remember previously visited users
 	@login_manager.user_loader
@@ -49,4 +47,6 @@ def create_app():
 	app.register_blueprint(admin)
 	app.register_blueprint(login)
 	app.register_blueprint(base)
+ 
+	# return app
 	return app
