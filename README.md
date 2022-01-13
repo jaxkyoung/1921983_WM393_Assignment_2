@@ -50,7 +50,5 @@ Follow same steps as Mac/Linux except step 3\
 .\venv\Scripts\activate
 ```
 
-
-
 ## Access Production Web App
 App: https://wmgtss-1921983.herokuapp.com
