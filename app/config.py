@@ -15,6 +15,6 @@ class DevelopmentConfig:
 class TestingConfig:
     SECRET_KEY = 'test'
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///tmp/WMGTSS.db'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///WMGTSS.db'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG = True
