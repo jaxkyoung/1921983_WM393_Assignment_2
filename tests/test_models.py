@@ -1,5 +1,4 @@
-from app.models import db, User, Question, Answer, QABoard, Comment
-from datetime import datetime
+from app.models import db, User, Question, Answer, QABoard, PendingUser
 
 def test_user():
     """
@@ -20,6 +19,25 @@ def test_user():
     assert new_user.sName == 'lastNameTest'
     assert new_user.userType == 'Student'
     
+    
+def test_pending_user():
+    """
+    GIVEN a PendingUser model
+    WHEN a new PendingUser is created
+    THEN check the email, password, first name and surname and role fields are defined correctly
+    """
+    new_user = PendingUser(
+        email = 'test@test.co.uk', 
+        password = 'test', 
+        fName = 'firstNameTest', 
+        sName = 'lastNameTest', 
+        userType = 'Student'
+    )
+    assert new_user.email == 'test@test.co.uk'
+    assert new_user.password == 'test'
+    assert new_user.fName == 'firstNameTest'
+    assert new_user.sName == 'lastNameTest'
+    assert new_user.userType == 'Student'
     
 def test_QABoard():
 	"""
