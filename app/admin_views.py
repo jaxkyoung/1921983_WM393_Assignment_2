@@ -49,10 +49,3 @@ def denyUser(email):
     userAccess.denyUser(email)
     flash(email + ' shall be denied access')
     return render_template('auth/approve_user.html', title='User Access Approvals', users=users)
-
-
-'''Flask App Initialisation'''
-# run app
-# if __name__ == '__main__':
-#     app.secret_key = ('super secret key')
-#     app.run(debug=True)

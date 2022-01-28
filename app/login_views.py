@@ -131,13 +131,8 @@ def register_post():
             elif userType == "Student":
                 userAccess.addUser(userEmail, userPassword, userFirstNameInput, userSurnameInput, userType)
                 return 'You have created a standard account with email: ' + userEmail + ', you will be redirected in 3 seconds', {"Refresh": "3; url = /"}
+        else:
+            flash('This email is already in use, please choose another.')
     else:
         flash('Passwords do not match', 'error')
         return render_template('auth/reigster.html')
-
-
-'''Flask App Initialisation'''
-# run app
-# if __name__ == '__main__':
-#     app.secret_key = ('super secret key')
-#     app.run(debug=True)

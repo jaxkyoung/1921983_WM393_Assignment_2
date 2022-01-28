@@ -30,7 +30,7 @@ def create_app():
 	from app.admin_views import admin
 	from app.login_views import login
 	from app.views import base
-
+ 
 	'''Log-in manager initialisation'''
 	# initalising login manager
 	login_manager = LoginManager()
