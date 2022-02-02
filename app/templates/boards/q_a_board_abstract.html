@@ -79,6 +79,7 @@ WMGTSS: Home
 						</div>
 					</div>
 				</div>
+				{% if current_user.userType == 'Tutor' %}
 				<!-- Button trigger modal -->
 				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addAnswerModal">Add Answer</button>
 				<!-- Modal -->
@@ -86,7 +87,7 @@ WMGTSS: Home
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title" id="exampleModalLabel">Ask a Question</h5>
+								<h5 class="modal-title" id="exampleModalLabel">Answer a Question</h5>
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
@@ -115,6 +116,7 @@ WMGTSS: Home
 						</div>
 					</div>
 				</div>
+				{% endif %}
 				{% if current_user.userType == 'Tutor' %}
 				<!-- Button trigger modal -->
 				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteQuestionModal">Delete Question</button>
@@ -133,8 +135,8 @@ WMGTSS: Home
 									<div class="form-group">
 										<select class="select" name="boardId">
 											<option value="0">Select Board Name</option>
-											{% for board in boards %}
-											<option value="{{ board.id }}">{{ board.boardName }}</option>
+											{% for question in questions %}
+											<option value="{{ question.id }}">{{ question.qTitle }}</option>
 											{% endfor %}
 										</select>
 									</div>
