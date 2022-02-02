@@ -106,6 +106,9 @@ def QABoard_abs_post(boardId):
         aBody = request.form['aBody']
         questionId = request.form['questionId']
         boardAccess.addAnswer(aBody, questionId)
+    elif request.form['action'] == 'deleteQuestionSubmit':
+        questionId = request.form['questionId']
+        boardAccess.deleteQuestion(questionId)
     board = boardAccess.getBoard(boardId)
     questions = boardAccess.getQuestions(boardId)
     answers = boardAccess.getAnswers(boardId)
