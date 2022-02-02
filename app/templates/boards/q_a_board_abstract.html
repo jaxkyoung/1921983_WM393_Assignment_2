@@ -130,11 +130,11 @@ WMGTSS: Home
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
-							<form action="{{ url_for('base.QABoard_post') }}" method="POST">
+							<form action="/Q-A-Board/id/{{ board.id }}" method="POST">
 								<div class="modal-body">
 									<div class="form-group">
 										<select class="select" name="boardId">
-											<option value="0">Select Board Name</option>
+											<option value="0">Select Question Name</option>
 											{% for question in questions %}
 											<option value="{{ question.id }}">{{ question.qTitle }}</option>
 											{% endfor %}
