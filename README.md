@@ -41,6 +41,7 @@ pip install -r requirements.txt
 ```
 python run.py
 ```
+5. Navigate to http://127.0.0.1:5000
 
 ### Windows
 Follow same steps as Mac/Linux except step 3\
