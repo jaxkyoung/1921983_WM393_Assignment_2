@@ -53,3 +53,8 @@ Follow same steps as Mac/Linux except step 3\
 
 ## Access Production Web App
 App: https://wmgtss-1921983.herokuapp.com
+
+## Admin User Login Details
+Email: tutor@warwick.ac.uk
+Password: tutor
+
